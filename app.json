@@ -43,6 +43,10 @@
     "refreshAll": {
       "method": "POST",
       "path": "/refresh"
+    },
+    "probeCommands": {
+      "method": "POST",
+      "path": "/probe-commands"
     }
   },
   "support": "mailto:grant.lutz@gmail.com",

@@ -379,7 +379,22 @@ class GeneratorDevice extends Homey.Device {
     if (match && match.IsEnabled === false) {
       throw new Error(`Cummins reports the ${commandName} command as disabled for this generator.`);
     }
-    await this.api.sendCommand(this.assetId, commandName);
+    try {
+      await this.api.sendCommand(this.assetId, commandName);
+    } catch (err) {
+      // A 404 means the guessed path doesn't exist on the mobile API — a
+      // known open question, not something the user did wrong. Point them at
+      // the tool that can actually find the right endpoint.
+      if (/\(404\)|404\)/.test(err.message) || /not found/i.test(err.message)) {
+        throw new Error(
+          'Cummins\' API has no command endpoint at the path this app tries — '
+          + 'the cloud start/stop format is still unknown. Open the app settings '
+          + '("Find the cloud start/stop endpoint") to run a safe test that can '
+          + 'identify the correct one. Local RS-series generators are unaffected.',
+        );
+      }
+      throw err;
+    }
     this.log(`Sent ${commandName} (experimental)`);
     // Re-poll shortly to reflect the (possible) state change
     this.homey.setTimeout(() => this.poll().catch(this.error), 15 * 1000);

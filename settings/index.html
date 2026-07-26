@@ -72,6 +72,33 @@
     </p>
   </details>
 
+  <details id="probe-section">
+    <summary>Find the cloud start/stop endpoint (advanced)</summary>
+    <p>
+      Cummins' cloud command format has never been publicly documented, and
+      the path this app tries first returns <code>404 not found</code>. This
+      tool asks the API which commands it advertises and then tests candidate
+      endpoints to find the one that exists.
+    </p>
+    <p>
+      <strong>Nothing is started or stopped.</strong> Every test uses a
+      deliberately invalid command name, so the generator can't act on it —
+      a <code>404</code> means "no such endpoint", while any other response
+      means the endpoint exists and simply rejected the fake command. That's
+      the one we want.
+    </p>
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="probe-device">Connect Cloud generator</label>
+      <select class="homey-form-input" id="probe-device"></select>
+    </div>
+    <button class="homey-button-primary-full" id="probe-run">Run endpoint test</button>
+    <pre id="probe-output" style="display:none;white-space:pre-wrap;word-break:break-word;font-size:12px;background:rgba(127,127,127,0.1);padding:10px;border-radius:8px;margin-top:10px;overflow-x:auto;"></pre>
+    <p class="hint" style="font-size:13px;opacity:0.75;">
+      Please paste the result into a GitHub issue — it's what's needed to make
+      cloud start/stop work for everyone.
+    </p>
+  </details>
+
   <details>
     <summary>Remote start / stop</summary>
     <p>
@@ -131,6 +158,8 @@
         }).join('');
       }
 
+      var cloudDevices = [];
+
       function load() {
         Homey.api('GET', '/diagnostics', null, function (err, result) {
           if (err) {
@@ -139,8 +168,55 @@
             return;
           }
           render(result);
+
+          // Keep the endpoint-probe picker in step with paired cloud devices
+          var next = (result || []).filter(function (d) { return d.driver === 'generator'; });
+          if (JSON.stringify(next.map(function (d) { return d.id + d.name; }))
+              !== JSON.stringify(cloudDevices.map(function (d) { return d.id + d.name; }))) {
+            cloudDevices = next;
+            var select = document.getElementById('probe-device');
+            select.innerHTML = cloudDevices.length
+              ? cloudDevices.map(function (d) {
+                return '<option value="' + esc(d.id) + '">' + esc(d.name) + '</option>';
+              }).join('')
+              : '<option value="">No Connect Cloud generators paired</option>';
+          }
         });
       }
+
+      document.getElementById('probe-run').addEventListener('click', function () {
+        var button = document.getElementById('probe-run');
+        var out = document.getElementById('probe-output');
+        var deviceId = document.getElementById('probe-device').value;
+        if (!deviceId) {
+          Homey.alert('Pair a Connect Cloud generator first.');
+          return;
+        }
+        button.disabled = true;
+        out.style.display = 'block';
+        out.textContent = 'Testing endpoints…';
+        Homey.api('POST', '/probe-commands', { deviceId: deviceId }, function (err, result) {
+          button.disabled = false;
+          if (err) {
+            out.textContent = 'Failed: ' + (err.message || err);
+            return;
+          }
+          var lines = ['=== Commands the API advertises ===',
+            JSON.stringify(result.commands, null, 2),
+            '',
+            '=== Endpoint tests (404 = wrong path) ==='];
+          result.probes.forEach(function (p) {
+            lines.push((p.promising ? '>> ' : '   ') + p.status + '  ' + p.label);
+            if (p.promising) lines.push('       ' + p.body);
+          });
+          var hits = result.probes.filter(function (p) { return p.promising; });
+          lines.push('');
+          lines.push(hits.length
+            ? 'Lines marked >> are endpoints that exist. ' + hits.length + ' found.'
+            : 'No candidate endpoint responded — none of these paths exist.');
+          out.textContent = lines.join('\n');
+        });
+      });
 
       document.getElementById('refresh').addEventListener('click', function () {
         var button = document.getElementById('refresh');

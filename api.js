@@ -15,4 +15,8 @@ module.exports = {
     return homey.app.refreshAll();
   },
 
+  async probeCommands({ homey, body }) {
+    return homey.app.probeCommands(body && body.deviceId);
+  },
+
 };

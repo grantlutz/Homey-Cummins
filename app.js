@@ -67,6 +67,7 @@ class CumminsGeneratorApp extends Homey.App {
     return this._allDeviceEntries().map(({ device, driverId }) => {
       const cap = id => (device.hasCapability(id) ? device.getCapabilityValue(id) : null);
       return {
+        id: device.getData().id,
         name: device.getName(),
         driver: driverId,
         available: device.getAvailable(),
@@ -91,6 +92,24 @@ class CumminsGeneratorApp extends Homey.App {
       this.error(`Refresh failed for ${device.getName()}:`, err.message);
     })));
     return { refreshed: devices.length };
+  }
+
+  /**
+   * Find the mobile API's real command endpoint for a cloud generator.
+   *
+   * The published command path returns 404, so this asks the API what
+   * commands it advertises and probes candidate endpoints with a bogus
+   * command name — nothing can be executed, and a non-404 identifies the
+   * right path. Results are surfaced on the app settings page.
+   *
+   * @param {string} deviceId
+   */
+  async probeCommands(deviceId) {
+    const entry = this._allDeviceEntries()
+      .find(e => e.driverId === 'generator' && e.device.getData().id === deviceId);
+    if (!entry) throw new Error('Pick a Connect Cloud generator first.');
+    if (!entry.device.api) throw new Error('That generator is not signed in — repair it first.');
+    return entry.device.api.probeCommandEndpoints(entry.device.assetId);
   }
 
   /** Data source for the generator-status widget. */
