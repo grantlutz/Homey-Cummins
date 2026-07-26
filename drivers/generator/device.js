@@ -20,6 +20,9 @@ class GeneratorDevice extends Homey.Device {
     this._backoffUntil = 0;
     this._apiGeneration = 0;
     await this._syncCommandCapability();
+    this.registerCapabilityListener('button.exercise', async () => {
+      await this.sendGensetCommand('StartExercise', { requiresOptIn: false });
+    });
     this._energy = new EnergyEstimator(
       this,
       () => Math.max(1, Number(this.getSetting('poll_interval')) || 2) * 60 * 1000,
@@ -360,10 +363,19 @@ class GeneratorDevice extends Homey.Device {
     return Number.isNaN(parsed) ? 0 : parsed;
   }
 
-  /** EXPERIMENTAL cloud command — heavily gated, see driver.flow hints. */
-  async sendGensetCommand(commandName) {
-    if (this.getSetting('commands_enabled') !== true) {
-      throw new Error('Experimental remote commands are disabled — enable them in the device settings first.');
+  /**
+   * Send a command via Cummins Connect Cloud.
+   *
+   * @param {string} commandName
+   * @param {{ requiresOptIn?: boolean }} [options] engine start/stop requires
+   *   the user to have opted in; exercise and fault-reset do not, since an
+   *   exercise is the routine self-test the generator runs on its own
+   *   schedule and a fault reset only clears an indication.
+   */
+  async sendGensetCommand(commandName, options = {}) {
+    const { requiresOptIn = true } = options;
+    if (requiresOptIn && this.getSetting('commands_enabled') !== true) {
+      throw new Error('Remote start/stop is disabled — enable it in the device settings first.');
     }
     if (this._remoteEnabled === false) {
       throw new Error('The generator reports remote control as disabled.');
@@ -385,12 +397,9 @@ class GeneratorDevice extends Homey.Device {
       // A 404 means the guessed path doesn't exist on the mobile API — a
       // known open question, not something the user did wrong. Point them at
       // the tool that can actually find the right endpoint.
-      if (/\(404\)|404\)/.test(err.message) || /not found/i.test(err.message)) {
+      if (/\(4\d\d\)/.test(err.message)) {
         throw new Error(
-          'Cummins\' API has no command endpoint at the path this app tries — '
-          + 'the cloud start/stop format is still unknown. Open the app settings '
-          + '("Find the cloud start/stop endpoint") to run a safe test that can '
-          + 'identify the correct one. Local RS-series generators are unaffected.',
+          `Cummins rejected ${commandName}: ${err.message.replace(/^\S+ failed /, '')}`,
         );
       }
       throw err;

@@ -74,17 +74,17 @@
   {
     "type": "group",
     "label": {
-      "en": "Remote commands (experimental)"
+      "en": "Remote start / stop"
     },
     "children": [
       {
         "id": "commands_enabled",
         "type": "checkbox",
         "label": {
-          "en": "Enable experimental start/stop commands"
+          "en": "Enable remote start/stop"
         },
         "hint": {
-          "en": "The exact cloud command format has never been publicly confirmed — these Flow cards send a best-effort request and may not work. They act on real equipment: enable only if you understand the risk. Commands also require remote control to be enabled on the generator itself."
+          "en": "Adds an on/off switch to the device and enables the start/stop Flow cards. These start and stop a real engine, and also require remote control to be enabled on the generator itself. Running an exercise and clearing a fault do not need this setting."
         },
         "value": false
       }

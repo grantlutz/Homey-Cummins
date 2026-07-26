@@ -58,10 +58,54 @@ Base: `https://cc.aws.powercommandcloud.com/api/dashboard/v1/mobile`
 | `GET /Sites/GetAssets?id=<siteId>` | Assets for a site incl. `LastTelemetry` |
 | `GET /Assets/Detail?id=<assetId>` | **Live telemetry snapshot** (primary poll target) |
 | `GET /Assets/Events?id=<assetId>&from=<epoch_ms>` | Event/fault history (Severity, Code, Message, Timestamp, Acknowledged) |
-| `GET /Assets/Commands?id=<assetId>` | Available commands + `IsEnabled` (`StartGenset`, `StopGenset`, `SetExerciseSchedule`) |
+| `GET /Assets/Commands?id=<assetId>` | Available commands + `IsEnabled` |
+| `POST /Assets/SendCommand?id=<assetId>` | **Execute a command** — see below |
 
 Telemetry arrives as `LastTelemetry.Properties[]` (name/value string pairs,
 coerced to numbers client-side) plus a top-level `LastCheckIn` ISO timestamp.
+
+#### Cloud command endpoint — SOLVED 2026-07-26 (not known to any prior project)
+
+Upstream never captured this; tebrown's design doc lists it as unresolved
+phase-2 work and cites the *web* app's path, which does not exist on the
+mobile API. Established empirically against a live account by probing
+candidates with a deliberately invalid command name, so **nothing had to be
+executed to learn the protocol**:
+
+```
+POST {API_BASE}/Assets/SendCommand?id=<assetId>
+Content-Type: application/json
+
+{ "DestinationId": "<assetId>", "CommandString": "StartGenset", "Properties": [] }
+```
+
+Body fields mirror the objects `/Assets/Commands` returns. Evidence trail:
+
+| Attempt | Result |
+|---|---|
+| `POST /Assets/{id}/command/{name}` (the web-app path) | **404** — absent from the mobile API |
+| `/Assets/Command`, `/Assets/Commands`, `/Assets/ExecuteCommand`, lowercase and `PUT` variants | **404** |
+| `POST /Assets/SendCommand` with no query param | **400** `Required parameter id is missing!` → endpoint exists |
+| `POST /Assets/SendCommand?id=…` with the command-object body | **422** enum validation on `.CommandString` → body shape correct |
+
+The 422 returned the server's own complete allowed-value list:
+
+```
+ResetDevice, ResetPassword, UpdateConfig, SoftwareUpdate, FaultReset,
+StartAtsTest, StopAtsTest, StartGenset, StopGenset, StartExercise,
+StopExercise, SetStandby, SetExerciseSchedule
+```
+
+`/Assets/Commands` reports which of these a given generator has enabled. On
+the test unit all six of StartGenset, StopGenset, StartExercise,
+StopExercise, SetStandby and SetExerciseSchedule came back `IsEnabled: true`.
+
+**Still unknown:** the `Properties` shape for the parameterised commands
+(`SetStandby`, `SetExerciseSchedule`). Simple commands take `Properties: []`.
+Probing for that shape is *not* safe the way the above was — a
+schema-valid empty payload would execute rather than error, and disabling
+standby means the generator won't auto-start during an outage. That needs a
+traffic capture from the ConnectCloud app.
 
 ### 1.3 Telemetry fields
 

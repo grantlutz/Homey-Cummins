@@ -58,10 +58,19 @@ class GeneratorDriver extends Homey.Driver {
 
     this.homey.flow.getActionCard('refresh_now')
       .registerRunListener(async args => args.device.poll(true));
+    // Start/stop act on a real engine, so they stay behind the opt-in
+    // setting. Exercise and fault-reset don't: an exercise is the same
+    // self-test the generator runs weekly on its own.
     this.homey.flow.getActionCard('start_generator_experimental')
       .registerRunListener(async args => args.device.sendGensetCommand('StartGenset'));
     this.homey.flow.getActionCard('stop_generator_experimental')
       .registerRunListener(async args => args.device.sendGensetCommand('StopGenset'));
+    this.homey.flow.getActionCard('start_exercise')
+      .registerRunListener(async args => args.device.sendGensetCommand('StartExercise', { requiresOptIn: false }));
+    this.homey.flow.getActionCard('stop_exercise')
+      .registerRunListener(async args => args.device.sendGensetCommand('StopExercise', { requiresOptIn: false }));
+    this.homey.flow.getActionCard('fault_reset')
+      .registerRunListener(async args => args.device.sendGensetCommand('FaultReset', { requiresOptIn: false }));
 
     this.log('Generator (Connect Cloud) driver initialized');
   }

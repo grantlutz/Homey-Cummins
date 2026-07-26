@@ -327,19 +327,43 @@
     {
       "id": "start_generator_experimental",
       "title": {
-        "en": "Start the generator (EXPERIMENTAL)"
+        "en": "Start the generator"
       },
       "hint": {
-        "en": "Sends a best-effort StartGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+        "en": "Sends StartGenset to Cummins Connect Cloud. Requires \"Enable remote start/stop\" in the device settings and remote control enabled on the generator itself."
       }
     },
     {
       "id": "stop_generator_experimental",
       "title": {
-        "en": "Stop the generator (EXPERIMENTAL)"
+        "en": "Stop the generator"
       },
       "hint": {
-        "en": "Sends a best-effort StopGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+        "en": "Sends StopGenset to Cummins Connect Cloud. Requires \"Enable remote start/stop\" in the device settings and remote control enabled on the generator itself."
+      }
+    },
+    {
+      "id": "start_exercise",
+      "title": {
+        "en": "Run an exercise (self-test) now"
+      },
+      "hint": {
+        "en": "Starts the same self-test cycle the generator runs on its schedule."
+      }
+    },
+    {
+      "id": "stop_exercise",
+      "title": {
+        "en": "Stop the running exercise"
+      }
+    },
+    {
+      "id": "fault_reset",
+      "title": {
+        "en": "Clear the active fault"
+      },
+      "hint": {
+        "en": "Sends FaultReset. Only clears the fault indication — it does not fix the underlying cause."
       }
     }
   ]

@@ -22,7 +22,8 @@
     "measure_engine_runtime",
     "standby_enabled",
     "last_exercise",
-    "last_checkin"
+    "last_checkin",
+    "button.exercise"
   ],
   "capabilitiesOptions": {
     "measure_voltage.battery": {
@@ -102,6 +103,14 @@
       },
       "setable": false,
       "uiComponent": "sensor"
+    },
+    "button.exercise": {
+      "title": {
+        "en": "Exercise"
+      },
+      "desc": {
+        "en": "Start an exercise (self-test) cycle now."
+      }
     }
   },
   "platforms": [
