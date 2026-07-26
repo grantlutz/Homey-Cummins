@@ -46,6 +46,28 @@ lost, house switched to generator, fault occurred.
 **Flow cards** — 30+ triggers, 20+ conditions, 10 actions. Full reference in
 [`docs/FLOW-CARDS.md`](docs/FLOW-CARDS.md).
 
+### Controlling it without building a Flow
+
+On the **local RS-series driver**, the device tile itself gives you:
+
+| Control | Where |
+|---|---|
+| **Start / stop the generator** | On/off switch on the device tile |
+| **Standby (auto-start) on/off** | Toggle on the device tile |
+| **Run an exercise now** | Exercise button on the device tile |
+| **Set the exercise schedule** | Device → Settings → *Exercise schedule* (frequency, day, hour, minute — written to the generator when you save, and read back from it otherwise) |
+| **Sync the generator clock** | Device → Settings → Maintenance |
+
+All of these need the generator's switch in **REMOTE**; that physical
+interlock is the safety net.
+
+On the **Connect Cloud driver** the on/off switch is hidden by default,
+because the cloud command format is unconfirmed and a dead switch is worse
+than no switch. Turn on *Enable experimental start/stop commands* in the
+device settings and the toggle appears; turn it off and it disappears again.
+Cloud generators have no confirmed way to set the exercise schedule, so that
+control is local-only.
+
 ---
 
 ## Installation

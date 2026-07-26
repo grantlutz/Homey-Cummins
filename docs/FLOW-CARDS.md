@@ -77,8 +77,22 @@ Cooldown).
 | Refresh generator data | Immediate poll; bypasses failure backoff |
 
 The generator's physical switch must be in **REMOTE** for control commands
-to take effect. There are also two maintenance actions in the device's
-settings panel: *Run exercise now* and *Sync generator clock*.
+to take effect.
+
+### Controls that don't need a Flow at all
+
+The local driver exposes the same actions directly on the device, so simple
+one-off operations don't require building a Flow:
+
+- **on/off switch** on the tile → start / stop the engine
+- **standby toggle** on the tile → arm / disarm auto-start
+- **Exercise button** on the tile → run a self-test now
+- **Device → Settings → Exercise schedule** → frequency / day / hour /
+  minute, written to the generator on save and read back from it otherwise
+- **Device → Settings → Maintenance** → sync the generator clock
+
+The cloud driver's on/off switch only appears once *Enable experimental
+start/stop commands* is turned on in its device settings.
 
 ## Starter flow recipes
 

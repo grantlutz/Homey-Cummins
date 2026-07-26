@@ -4,8 +4,8 @@
     "en": "Standby enabled"
   },
   "getable": true,
-  "setable": false,
-  "uiComponent": "sensor",
+  "setable": true,
+  "uiComponent": "toggle",
   "insights": true,
   "insightsTitleTrue": {
     "en": "Standby enabled"

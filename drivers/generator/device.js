@@ -19,6 +19,7 @@ class GeneratorDevice extends Homey.Device {
     this._failCount = 0;
     this._backoffUntil = 0;
     this._apiGeneration = 0;
+    await this._syncCommandCapability();
     this._energy = new EnergyEstimator(
       this,
       () => Math.max(1, Number(this.getSetting('poll_interval')) || 2) * 60 * 1000,
@@ -118,6 +119,32 @@ class GeneratorDevice extends Homey.Device {
   }
 
   /**
+   * Add or remove the on/off tile control to match the `commands_enabled`
+   * setting.
+   *
+   * The cloud command payload has never been publicly confirmed, so a
+   * start/stop toggle may simply not work. Rather than putting a
+   * possibly-dead switch on every user's device tile, it only exists once
+   * the user has explicitly opted into experimental commands.
+   */
+  async _syncCommandCapability() {
+    const wanted = this.getSetting('commands_enabled') === true;
+    const present = this.hasCapability('onoff');
+    if (wanted && !present) {
+      await this.addCapability('onoff').catch(this.error);
+      this.registerCapabilityListener('onoff', async value => {
+        await this.sendGensetCommand(value ? 'StartGenset' : 'StopGenset');
+      });
+    } else if (!wanted && present) {
+      await this.removeCapability('onoff').catch(this.error);
+    } else if (wanted && present) {
+      this.registerCapabilityListener('onoff', async value => {
+        await this.sendGensetCommand(value ? 'StartGenset' : 'StopGenset');
+      });
+    }
+  }
+
+  /**
    * setUnavailable() plus a local copy of the reason — SDK v3 offers no way
    * to read it back, and the app settings page wants to show it.
    */
@@ -207,6 +234,9 @@ class GeneratorDevice extends Homey.Device {
       onTrue: () => trig.exercise_became_overdue.trigger(this),
     });
     await this._setCapability('standby_enabled', t.isStandbyEnabled != null ? Boolean(t.isStandbyEnabled) : null);
+    // Only present when experimental commands are enabled; keep it in step
+    // with reality so the toggle isn't lying after an auto-start.
+    if (running != null) await this._setCapability('onoff', running);
 
     // Numeric telemetry (threshold triggers filter in their run listeners)
     await this._numeric('measure_voltage.battery', t.batteryVoltage, (value, prev) => {
@@ -422,6 +452,11 @@ class GeneratorDevice extends Homey.Device {
   async onSettings({ newSettings, changedKeys }) {
     if (changedKeys.includes('poll_interval')) {
       this._startPolling(newSettings.poll_interval);
+    }
+    if (changedKeys.includes('commands_enabled')) {
+      // getSetting() still returns the old value inside onSettings, so apply
+      // the change on the next tick once Homey has committed it.
+      this.homey.setTimeout(() => this._syncCommandCapability().catch(this.error), 500);
     }
     if (changedKeys.includes('stale_hours') || changedKeys.includes('exercise_overdue_days')) {
       // Forced: the user just changed a threshold and expects to see the

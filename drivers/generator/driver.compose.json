@@ -99,7 +99,9 @@
       },
       "titleFalse": {
         "en": "Disabled"
-      }
+      },
+      "setable": false,
+      "uiComponent": "sensor"
     }
   },
   "platforms": [

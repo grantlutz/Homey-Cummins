@@ -4,6 +4,7 @@
   },
   "class": "other",
   "capabilities": [
+    "onoff",
     "generator_status",
     "generator_running",
     "on_generator_power",
@@ -47,12 +48,11 @@
       }
     },
     "button.exercise": {
-      "maintenanceAction": true,
       "title": {
-        "en": "Run exercise now"
+        "en": "Exercise"
       },
       "desc": {
-        "en": "Starts an exercise (self-test) cycle. The generator's switch must be in REMOTE."
+        "en": "Start an exercise (self-test) cycle now. The generator's switch must be in REMOTE."
       }
     },
     "button.sync_clock": {
@@ -118,6 +118,26 @@
       },
       "titleFalse": {
         "en": "Disabled"
+      },
+      "title": {
+        "en": "Standby (auto-start)"
+      }
+    },
+    "onoff": {
+      "title": {
+        "en": "Generator"
+      },
+      "titleTrue": {
+        "en": "Running"
+      },
+      "titleFalse": {
+        "en": "Stopped"
+      },
+      "insightsTitleTrue": {
+        "en": "Generator started"
+      },
+      "insightsTitleFalse": {
+        "en": "Generator stopped"
       }
     }
   },

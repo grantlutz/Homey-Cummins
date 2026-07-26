@@ -37,8 +37,22 @@ class GeneratorLocalDevice extends Homey.Device {
     );
     this._connect();
 
+    // Direct controls on the device tile — no Flow required.
+    // All of these act on a real engine; the generator's own switch must be
+    // in REMOTE for any of them to take effect, which is the safety interlock.
+    this.registerCapabilityListener('onoff', async value => {
+      if (value) await this.api.start();
+      else await this.api.stop();
+      // The engine takes a few seconds to report the new state
+      this.homey.setTimeout(() => this.poll(true).catch(this.error), 5000);
+    });
+    this.registerCapabilityListener('standby_enabled', async value => {
+      await this.api.setStandby(value);
+      this.homey.setTimeout(() => this.poll(true).catch(this.error), 3000);
+    });
     this.registerCapabilityListener('button.exercise', async () => {
       await this.api.exerciseNow();
+      this.homey.setTimeout(() => this.poll(true).catch(this.error), 5000);
     });
     this.registerCapabilityListener('button.sync_clock', async () => {
       await this.syncClock();
@@ -138,6 +152,10 @@ class GeneratorLocalDevice extends Homey.Device {
       onTrue: () => trig.local_generator_started.trigger(this),
       onFalse: () => trig.local_generator_stopped.trigger(this, { runtime_hours: s.engineHours || 0 }),
     });
+    // Keep the tile's on/off switch in sync with reality — the generator can
+    // also start on its own (outage, scheduled exercise) or be run from its
+    // front panel, and the toggle must reflect that, not just our commands.
+    await this._setCapability('onoff', s.running);
     await this._transition('utility_power', s.utilityPresent, {
       onTrue: () => trig.local_utility_restored.trigger(this),
       onFalse: () => {
@@ -256,16 +274,45 @@ class GeneratorLocalDevice extends Homey.Device {
     await this.setStoreValue('last_event_signature', signature(events[0])).catch(this.error);
   }
 
+  /**
+   * Read the generator's exercise schedule back into the device settings, so
+   * the settings page shows what the generator actually has.
+   *
+   * Skipped briefly after the user saves a schedule: the generator needs a
+   * moment to apply the write, and reading too early would snap the fields
+   * back to the old values and look like the save failed. Programmatic
+   * setSettings() doesn't re-enter onSettings, so there's no write loop.
+   */
   async _checkSchedule() {
+    if (this._scheduleWriteUntil && Date.now() < this._scheduleWriteUntil) return;
     try {
       const sched = await this.api.getExerciseSchedule();
-      const text = sched.frequency === 'never'
-        ? 'Never'
-        : `${sched.frequency} on ${sched.day} at ${sched.hour}:${String(sched.minute).padStart(2, '0')}`;
-      await this._updateInfoSettings({ exercise_schedule: text });
+      const dayIndex = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        .indexOf(sched.day);
+      await this._updateInfoSettings({
+        exercise_frequency: sched.frequency,
+        exercise_day: String(dayIndex < 0 ? 0 : dayIndex),
+        exercise_hour: sched.hour,
+        exercise_minute: String(sched.minute),
+      });
     } catch (err) {
-      // best-effort
+      // Best-effort: the schedule page is a bonus, never fail a poll over it.
     }
+  }
+
+  /** Push the schedule from device settings down to the generator. */
+  async _writeSchedule(settings) {
+    const frequency = settings.exercise_frequency;
+    if (!frequency || frequency === 'unknown') return;
+    // Hold off the reader until the generator has applied the write
+    this._scheduleWriteUntil = Date.now() + 30 * 1000;
+    await this.api.setExerciseSchedule(
+      frequency,
+      parseInt(settings.exercise_day, 10) || 0,
+      Number(settings.exercise_hour) || 0,
+      parseInt(settings.exercise_minute, 10) || 0,
+    );
+    this.log(`Exercise schedule set: ${frequency}`);
   }
 
   /**
@@ -348,6 +395,17 @@ class GeneratorLocalDevice extends Homey.Device {
     }
     if (changedKeys.includes('poll_interval_s')) {
       this._startPolling(newSettings.poll_interval_s);
+    }
+    const scheduleKeys = ['exercise_frequency', 'exercise_day', 'exercise_hour', 'exercise_minute'];
+    if (scheduleKeys.some(k => changedKeys.includes(k))) {
+      // Throwing here makes Homey reject the save and show the reason, which
+      // is right: a schedule the generator didn't accept shouldn't be
+      // displayed as if it had been.
+      try {
+        await this._writeSchedule(newSettings);
+      } catch (err) {
+        throw new Error(`Could not write the exercise schedule: ${err.message}`);
+      }
     }
   }
 

@@ -135,17 +135,156 @@
   {
     "type": "group",
     "label": {
-      "en": "Device information"
+      "en": "Exercise schedule"
     },
     "children": [
       {
-        "id": "exercise_schedule",
-        "type": "label",
+        "id": "exercise_frequency",
+        "type": "dropdown",
         "label": {
-          "en": "Exercise schedule"
+          "en": "Frequency"
         },
-        "value": "-"
+        "hint": {
+          "en": "Written to the generator when you save. Reads back from the generator otherwise. Requires the generator's switch to be in REMOTE."
+        },
+        "value": "unknown",
+        "values": [
+          {
+            "id": "unknown",
+            "label": {
+              "en": "(reading from generator…)"
+            }
+          },
+          {
+            "id": "never",
+            "label": {
+              "en": "Never"
+            }
+          },
+          {
+            "id": "weekly",
+            "label": {
+              "en": "Weekly"
+            }
+          },
+          {
+            "id": "bimonthly",
+            "label": {
+              "en": "Every two weeks"
+            }
+          },
+          {
+            "id": "monthly",
+            "label": {
+              "en": "Monthly"
+            }
+          }
+        ]
       },
+      {
+        "id": "exercise_day",
+        "type": "dropdown",
+        "label": {
+          "en": "Day"
+        },
+        "value": "0",
+        "values": [
+          {
+            "id": "0",
+            "label": {
+              "en": "Sunday"
+            }
+          },
+          {
+            "id": "1",
+            "label": {
+              "en": "Monday"
+            }
+          },
+          {
+            "id": "2",
+            "label": {
+              "en": "Tuesday"
+            }
+          },
+          {
+            "id": "3",
+            "label": {
+              "en": "Wednesday"
+            }
+          },
+          {
+            "id": "4",
+            "label": {
+              "en": "Thursday"
+            }
+          },
+          {
+            "id": "5",
+            "label": {
+              "en": "Friday"
+            }
+          },
+          {
+            "id": "6",
+            "label": {
+              "en": "Saturday"
+            }
+          }
+        ]
+      },
+      {
+        "id": "exercise_hour",
+        "type": "number",
+        "label": {
+          "en": "Hour (0–23)"
+        },
+        "value": 10,
+        "min": 0,
+        "max": 23
+      },
+      {
+        "id": "exercise_minute",
+        "type": "dropdown",
+        "label": {
+          "en": "Minute"
+        },
+        "value": "0",
+        "values": [
+          {
+            "id": "0",
+            "label": {
+              "en": "00"
+            }
+          },
+          {
+            "id": "15",
+            "label": {
+              "en": "15"
+            }
+          },
+          {
+            "id": "30",
+            "label": {
+              "en": "30"
+            }
+          },
+          {
+            "id": "45",
+            "label": {
+              "en": "45"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Device information"
+    },
+    "children": [
       {
         "id": "generator_clock",
         "type": "label",
