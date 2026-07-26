@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Fault"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Fault active"
+  },
+  "insightsTitleFalse": {
+    "en": "Fault cleared"
+  },
+  "icon": "/assets/capability-icons/alarm_fault.svg"
+}

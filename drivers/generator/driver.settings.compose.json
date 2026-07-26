@@ -1,0 +1,171 @@
+[
+  {
+    "type": "group",
+    "label": {
+      "en": "Polling"
+    },
+    "children": [
+      {
+        "id": "poll_interval",
+        "type": "number",
+        "label": {
+          "en": "Poll interval (minutes)"
+        },
+        "hint": {
+          "en": "How often to fetch telemetry from Cummins Connect Cloud. The generator itself only checks in periodically, so faster polling mostly adds load, not freshness."
+        },
+        "value": 2,
+        "min": 1,
+        "max": 60,
+        "units": {
+          "en": "min"
+        }
+      },
+      {
+        "id": "stale_hours",
+        "type": "number",
+        "label": {
+          "en": "Data stale after (hours)"
+        },
+        "hint": {
+          "en": "Raise the 'Data stale' alarm when the generator hasn't checked in to the cloud for this long. 25 hours catches a missed daily check-in."
+        },
+        "value": 25,
+        "min": 1,
+        "max": 168,
+        "units": {
+          "en": "h"
+        }
+      },
+      {
+        "id": "exercise_overdue_days",
+        "type": "number",
+        "label": {
+          "en": "Exercise overdue after (days)"
+        },
+        "hint": {
+          "en": "Raise the 'Exercise overdue' alarm when no self-test has completed for this long. 8 days catches a missed weekly exercise."
+        },
+        "value": 8,
+        "min": 1,
+        "max": 90,
+        "units": {
+          "en": "d"
+        }
+      },
+      {
+        "id": "rated_kw",
+        "type": "number",
+        "label": {
+          "en": "Generator rated output (kW)"
+        },
+        "hint": {
+          "en": "Set your generator's nameplate rating (e.g. 20 for an RS20A) to estimate power output and energy produced from the reported load percentage. Leave at 0 to disable those two values."
+        },
+        "value": 0,
+        "min": 0,
+        "max": 200,
+        "units": {
+          "en": "kW"
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Remote commands (experimental)"
+    },
+    "children": [
+      {
+        "id": "commands_enabled",
+        "type": "checkbox",
+        "label": {
+          "en": "Enable experimental start/stop commands"
+        },
+        "hint": {
+          "en": "The exact cloud command format has never been publicly confirmed — these Flow cards send a best-effort request and may not work. They act on real equipment: enable only if you understand the risk. Commands also require remote control to be enabled on the generator itself."
+        },
+        "value": false
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Notifications"
+    },
+    "children": [
+      {
+        "id": "notify_critical",
+        "type": "checkbox",
+        "label": {
+          "en": "Post critical events to the Homey timeline"
+        },
+        "hint": {
+          "en": "Adds a timeline entry when utility power is lost, the house switches to generator power, or a fault occurs. Flow cards give you finer control; this is the zero-setup version."
+        },
+        "value": true
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Device information"
+    },
+    "children": [
+      {
+        "id": "site_name",
+        "type": "label",
+        "label": {
+          "en": "Site"
+        },
+        "value": "-"
+      },
+      {
+        "id": "firmware_version",
+        "type": "label",
+        "label": {
+          "en": "Firmware version"
+        },
+        "value": "-"
+      },
+      {
+        "id": "remote_control",
+        "type": "label",
+        "label": {
+          "en": "Remote control enabled"
+        },
+        "value": "-"
+      },
+      {
+        "id": "raw_genset_status",
+        "type": "label",
+        "label": {
+          "en": "Raw gensetStatus code"
+        },
+        "hint": {
+          "en": "Undecoded integer from the cloud API. If you can correlate values with what the Cummins app shows, please report the mapping."
+        },
+        "value": "-"
+      },
+      {
+        "id": "raw_load_status",
+        "type": "label",
+        "label": {
+          "en": "Raw loadStatus code"
+        },
+        "value": "-"
+      },
+      {
+        "id": "raw_power_source",
+        "type": "label",
+        "label": {
+          "en": "Raw powerSource code"
+        },
+        "value": "-"
+      }
+    ]
+  }
+]

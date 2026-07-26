@@ -1,0 +1,2327 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.cummins.generator",
+  "version": "1.0.0",
+  "compatibility": ">=12.3.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Cummins Generator"
+  },
+  "description": {
+    "en": "Monitor and control Cummins home standby generators — via Cummins Connect Cloud (QuietConnect) or the local web interface on older RS-series models. Unofficial community app, not affiliated with Cummins Inc."
+  },
+  "category": [
+    "energy"
+  ],
+  "tags": {
+    "en": [
+      "cummins",
+      "onan",
+      "generator",
+      "quietconnect",
+      "standby",
+      "power",
+      "backup"
+    ]
+  },
+  "brandColor": "#B41F2E",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "permissions": [],
+  "api": {
+    "getDiagnostics": {
+      "method": "GET",
+      "path": "/diagnostics"
+    },
+    "refreshAll": {
+      "method": "POST",
+      "path": "/refresh"
+    }
+  },
+  "support": "mailto:grant.lutz@gmail.com",
+  "author": {
+    "name": "Grant Lutz",
+    "email": "grant.lutz@gmail.com"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "generator_started",
+        "title": {
+          "en": "The generator started"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "generator_stopped",
+        "title": {
+          "en": "The generator stopped"
+        },
+        "highlight": true,
+        "tokens": [
+          {
+            "name": "runtime_hours",
+            "type": "number",
+            "title": {
+              "en": "Total runtime (h)"
+            },
+            "example": 27.6
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "utility_power_lost",
+        "title": {
+          "en": "Utility power was lost"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "utility_power_restored",
+        "title": {
+          "en": "Utility power was restored"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "switched_to_generator",
+        "title": {
+          "en": "Switched to generator power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "switched_to_utility",
+        "title": {
+          "en": "Switched back to utility power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "exercise_started",
+        "title": {
+          "en": "An exercise (self-test) started"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "exercise_completed",
+        "title": {
+          "en": "An exercise (self-test) completed"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "fault_occurred",
+        "title": {
+          "en": "A fault occurred"
+        },
+        "highlight": true,
+        "tokens": [
+          {
+            "name": "fault_type",
+            "type": "number",
+            "title": {
+              "en": "Fault type"
+            },
+            "example": 2
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "fault_cleared",
+        "title": {
+          "en": "The fault cleared"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "data_went_stale",
+        "title": {
+          "en": "Generator data went stale"
+        },
+        "hint": {
+          "en": "The generator hasn't checked in to Cummins Connect Cloud for longer than the configured threshold — it may be offline."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "data_fresh_again",
+        "title": {
+          "en": "Generator data is fresh again"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "exercise_became_overdue",
+        "title": {
+          "en": "The exercise became overdue"
+        },
+        "hint": {
+          "en": "No self-test has completed within the configured threshold."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "battery_voltage_below",
+        "title": {
+          "en": "The battery voltage dropped below..."
+        },
+        "titleFormatted": {
+          "en": "The battery voltage dropped below [[voltage]] V"
+        },
+        "hint": {
+          "en": "Fires once when the starter battery voltage crosses below the threshold. The battery starts the generator — a weak battery means no backup power when you need it."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          },
+          {
+            "name": "voltage",
+            "type": "number",
+            "min": 8,
+            "max": 16,
+            "step": 0.1,
+            "placeholder": {
+              "en": "12.0"
+            },
+            "title": {
+              "en": "Voltage (V)"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "voltage",
+            "type": "number",
+            "title": {
+              "en": "Battery voltage"
+            },
+            "example": 11.9
+          }
+        ]
+      },
+      {
+        "id": "load_above",
+        "title": {
+          "en": "The load rose above..."
+        },
+        "titleFormatted": {
+          "en": "The load rose above [[percent]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          },
+          {
+            "name": "percent",
+            "type": "number",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+              "en": "80"
+            },
+            "title": {
+              "en": "Load (%)"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "load",
+            "type": "number",
+            "title": {
+              "en": "Load %"
+            },
+            "example": 85
+          }
+        ]
+      },
+      {
+        "id": "generator_event",
+        "title": {
+          "en": "A new event was logged"
+        },
+        "hint": {
+          "en": "Fires for every new event in the generator's cloud event history (faults, exercises, state changes)."
+        },
+        "tokens": [
+          {
+            "name": "severity",
+            "type": "string",
+            "title": {
+              "en": "Severity"
+            },
+            "example": "Warning"
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Code"
+            },
+            "example": "1121"
+          },
+          {
+            "name": "message",
+            "type": "string",
+            "title": {
+              "en": "Message"
+            },
+            "example": "Genset exercise completed"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "local_generator_started",
+        "title": {
+          "en": "The generator started"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_generator_stopped",
+        "title": {
+          "en": "The generator stopped"
+        },
+        "highlight": true,
+        "tokens": [
+          {
+            "name": "runtime_hours",
+            "type": "number",
+            "title": {
+              "en": "Total runtime (h)"
+            },
+            "example": 27.6
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_utility_lost",
+        "title": {
+          "en": "Utility power was lost"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_utility_restored",
+        "title": {
+          "en": "Utility power was restored"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_switched_to_generator",
+        "title": {
+          "en": "Switched to generator power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_switched_to_utility",
+        "title": {
+          "en": "Switched back to utility power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_exercise_started",
+        "title": {
+          "en": "An exercise (self-test) started"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_exercise_completed",
+        "title": {
+          "en": "An exercise (self-test) completed"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_fault_occurred",
+        "title": {
+          "en": "A fault occurred"
+        },
+        "highlight": true,
+        "tokens": [
+          {
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Fault code"
+            },
+            "example": "36"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "title": {
+              "en": "Description"
+            },
+            "example": "Low coolant level"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_fault_cleared",
+        "title": {
+          "en": "The fault cleared"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_action_required",
+        "title": {
+          "en": "Action required turned on"
+        },
+        "hint": {
+          "en": "The generator's front panel is asking for attention."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_status_changed",
+        "title": {
+          "en": "The status changed"
+        },
+        "tokens": [
+          {
+            "name": "status",
+            "type": "string",
+            "title": {
+              "en": "Status"
+            },
+            "example": "Running"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_event_logged",
+        "title": {
+          "en": "A new event was logged"
+        },
+        "tokens": [
+          {
+            "name": "code",
+            "type": "string",
+            "title": {
+              "en": "Event code"
+            },
+            "example": "58"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "title": {
+              "en": "Description"
+            },
+            "example": "Genset exercise completed"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_battery_below",
+        "title": {
+          "en": "The battery voltage dropped below..."
+        },
+        "titleFormatted": {
+          "en": "The battery voltage dropped below [[voltage]] V"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          },
+          {
+            "name": "voltage",
+            "type": "number",
+            "min": 8,
+            "max": 16,
+            "step": 0.1,
+            "placeholder": {
+              "en": "12.0"
+            },
+            "title": {
+              "en": "Voltage (V)"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "voltage",
+            "type": "number",
+            "title": {
+              "en": "Battery voltage"
+            },
+            "example": 11.9
+          }
+        ]
+      },
+      {
+        "id": "local_load_above",
+        "title": {
+          "en": "The load rose above..."
+        },
+        "titleFormatted": {
+          "en": "The load rose above [[percent]] % (either line)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          },
+          {
+            "name": "percent",
+            "type": "number",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+              "en": "80"
+            },
+            "title": {
+              "en": "Load (%)"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "load",
+            "type": "number",
+            "title": {
+              "en": "Load %"
+            },
+            "example": 85
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "is_running",
+        "title": {
+          "en": "The generator !{{is|isn't}} running"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "utility_available",
+        "title": {
+          "en": "Utility power !{{is|isn't}} available"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "on_generator",
+        "title": {
+          "en": "The house !{{is|isn't}} on generator power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "is_exercising",
+        "title": {
+          "en": "The generator !{{is|isn't}} exercising"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "has_fault",
+        "title": {
+          "en": "The generator !{{has|doesn't have}} an active fault"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "is_stale",
+        "title": {
+          "en": "Generator data !{{is|isn't}} stale"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "is_exercise_overdue",
+        "title": {
+          "en": "The exercise !{{is|isn't}} overdue"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "standby_is_enabled",
+        "title": {
+          "en": "Standby !{{is|isn't}} enabled"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "battery_above",
+        "title": {
+          "en": "The battery voltage !{{is|isn't}} above..."
+        },
+        "titleFormatted": {
+          "en": "The battery voltage !{{is|isn't}} above [[voltage]] V"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          },
+          {
+            "name": "voltage",
+            "type": "number",
+            "min": 8,
+            "max": 16,
+            "step": 0.1,
+            "placeholder": {
+              "en": "12.0"
+            },
+            "title": {
+              "en": "Voltage (V)"
+            }
+          }
+        ]
+      },
+      {
+        "id": "load_is_above",
+        "title": {
+          "en": "The load !{{is|isn't}} above..."
+        },
+        "titleFormatted": {
+          "en": "The load !{{is|isn't}} above [[percent]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          },
+          {
+            "name": "percent",
+            "type": "number",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+              "en": "80"
+            },
+            "title": {
+              "en": "Load (%)"
+            }
+          }
+        ]
+      },
+      {
+        "id": "local_is_running",
+        "title": {
+          "en": "The generator !{{is|isn't}} running"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_utility_available",
+        "title": {
+          "en": "Utility power !{{is|isn't}} present"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_on_generator",
+        "title": {
+          "en": "The house !{{is|isn't}} on generator power"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_is_exercising",
+        "title": {
+          "en": "The generator !{{is|isn't}} exercising"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_has_fault",
+        "title": {
+          "en": "The generator !{{has|doesn't have}} an active fault"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_standby_enabled",
+        "title": {
+          "en": "Standby !{{is|isn't}} enabled"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_action_required_cond",
+        "title": {
+          "en": "Action !{{is|isn't}} required"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_status_is",
+        "title": {
+          "en": "The status !{{is|isn't}}..."
+        },
+        "titleFormatted": {
+          "en": "The status !{{is|isn't}} [[status]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          },
+          {
+            "name": "status",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "stopped",
+                "label": {
+                  "en": "Stopped"
+                }
+              },
+              {
+                "id": "starting",
+                "label": {
+                  "en": "Starting"
+                }
+              },
+              {
+                "id": "running",
+                "label": {
+                  "en": "Running"
+                }
+              },
+              {
+                "id": "priming",
+                "label": {
+                  "en": "Priming"
+                }
+              },
+              {
+                "id": "fault",
+                "label": {
+                  "en": "Fault"
+                }
+              },
+              {
+                "id": "engine_only",
+                "label": {
+                  "en": "Engine Only"
+                }
+              },
+              {
+                "id": "test_mode",
+                "label": {
+                  "en": "Test Mode"
+                }
+              },
+              {
+                "id": "volt_adj",
+                "label": {
+                  "en": "Voltage Adjust"
+                }
+              },
+              {
+                "id": "config",
+                "label": {
+                  "en": "Config Mode"
+                }
+              },
+              {
+                "id": "crank_pause",
+                "label": {
+                  "en": "Cycle Crank Pause"
+                }
+              },
+              {
+                "id": "exercising",
+                "label": {
+                  "en": "Exercising"
+                }
+              },
+              {
+                "id": "cooldown",
+                "label": {
+                  "en": "Engine Cooldown"
+                }
+              }
+            ],
+            "title": {
+              "en": "Status"
+            }
+          }
+        ]
+      },
+      {
+        "id": "local_battery_above",
+        "title": {
+          "en": "The battery voltage !{{is|isn't}} above..."
+        },
+        "titleFormatted": {
+          "en": "The battery voltage !{{is|isn't}} above [[voltage]] V"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          },
+          {
+            "name": "voltage",
+            "type": "number",
+            "min": 8,
+            "max": 16,
+            "step": 0.1,
+            "placeholder": {
+              "en": "12.0"
+            },
+            "title": {
+              "en": "Voltage (V)"
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "refresh_now",
+        "title": {
+          "en": "Refresh generator data"
+        },
+        "hint": {
+          "en": "Poll Cummins Connect Cloud immediately instead of waiting for the next scheduled poll."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "start_generator_experimental",
+        "title": {
+          "en": "Start the generator (EXPERIMENTAL)"
+        },
+        "hint": {
+          "en": "Sends a best-effort StartGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "stop_generator_experimental",
+        "title": {
+          "en": "Stop the generator (EXPERIMENTAL)"
+        },
+        "hint": {
+          "en": "Sends a best-effort StopGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator"
+          }
+        ]
+      },
+      {
+        "id": "local_start_generator",
+        "title": {
+          "en": "Start the generator"
+        },
+        "hint": {
+          "en": "Starts the engine via the generator's local interface. The generator's switch must be in REMOTE."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_stop_generator",
+        "title": {
+          "en": "Stop the generator"
+        },
+        "hint": {
+          "en": "Stops the engine via the generator's local interface. The generator's switch must be in REMOTE."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_exercise_now",
+        "title": {
+          "en": "Run an exercise (self-test) now"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_standby_on",
+        "title": {
+          "en": "Enable standby"
+        },
+        "hint": {
+          "en": "Arms the generator so it will auto-start on a utility outage."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_standby_off",
+        "title": {
+          "en": "Disable standby"
+        },
+        "hint": {
+          "en": "Disarms auto-start. The generator will NOT start automatically during an outage while disabled."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_set_exercise_schedule",
+        "title": {
+          "en": "Set the exercise schedule"
+        },
+        "titleFormatted": {
+          "en": "Exercise [[frequency]] on [[day]] at [[hour]]:[[minute]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          },
+          {
+            "name": "frequency",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "never",
+                "label": {
+                  "en": "Never"
+                }
+              },
+              {
+                "id": "weekly",
+                "label": {
+                  "en": "Weekly"
+                }
+              },
+              {
+                "id": "bimonthly",
+                "label": {
+                  "en": "Every two weeks"
+                }
+              },
+              {
+                "id": "monthly",
+                "label": {
+                  "en": "Monthly"
+                }
+              }
+            ],
+            "title": {
+              "en": "Frequency"
+            }
+          },
+          {
+            "name": "day",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "Sunday"
+                }
+              },
+              {
+                "id": "1",
+                "label": {
+                  "en": "Monday"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "Tuesday"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "Wednesday"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "Thursday"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "Friday"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "Saturday"
+                }
+              }
+            ],
+            "title": {
+              "en": "Day"
+            }
+          },
+          {
+            "name": "hour",
+            "type": "number",
+            "min": 0,
+            "max": 23,
+            "step": 1,
+            "placeholder": {
+              "en": "10"
+            },
+            "title": {
+              "en": "Hour (0-23)"
+            }
+          },
+          {
+            "name": "minute",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "00"
+                }
+              },
+              {
+                "id": "15",
+                "label": {
+                  "en": "15"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30"
+                }
+              },
+              {
+                "id": "45",
+                "label": {
+                  "en": "45"
+                }
+              }
+            ],
+            "title": {
+              "en": "Minute"
+            }
+          }
+        ]
+      },
+      {
+        "id": "local_sync_clock",
+        "title": {
+          "en": "Sync the generator clock"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      },
+      {
+        "id": "local_refresh",
+        "title": {
+          "en": "Refresh generator data"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=generator-local"
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Generator (Connect Cloud)"
+      },
+      "class": "other",
+      "capabilities": [
+        "generator_status",
+        "generator_running",
+        "on_generator_power",
+        "utility_power",
+        "generator_exercising",
+        "alarm_fault",
+        "alarm_data_stale",
+        "alarm_exercise_overdue",
+        "measure_voltage.battery",
+        "measure_generator_load",
+        "measure_generator_output",
+        "meter_generator_energy",
+        "measure_voltage.output",
+        "measure_frequency",
+        "measure_engine_speed",
+        "measure_engine_runtime",
+        "standby_enabled",
+        "last_exercise",
+        "last_checkin"
+      ],
+      "capabilitiesOptions": {
+        "measure_voltage.battery": {
+          "title": {
+            "en": "Battery voltage"
+          },
+          "decimals": 1
+        },
+        "measure_voltage.output": {
+          "title": {
+            "en": "Output voltage"
+          },
+          "decimals": 0
+        },
+        "generator_running": {
+          "titleTrue": {
+            "en": "Running"
+          },
+          "titleFalse": {
+            "en": "Stopped"
+          }
+        },
+        "on_generator_power": {
+          "titleTrue": {
+            "en": "On backup power"
+          },
+          "titleFalse": {
+            "en": "No"
+          }
+        },
+        "utility_power": {
+          "titleTrue": {
+            "en": "Available"
+          },
+          "titleFalse": {
+            "en": "Out"
+          }
+        },
+        "generator_exercising": {
+          "titleTrue": {
+            "en": "Exercising"
+          },
+          "titleFalse": {
+            "en": "Idle"
+          }
+        },
+        "alarm_fault": {
+          "titleTrue": {
+            "en": "Fault"
+          },
+          "titleFalse": {
+            "en": "OK"
+          }
+        },
+        "alarm_data_stale": {
+          "titleTrue": {
+            "en": "Stale"
+          },
+          "titleFalse": {
+            "en": "Fresh"
+          }
+        },
+        "alarm_exercise_overdue": {
+          "titleTrue": {
+            "en": "Overdue"
+          },
+          "titleFalse": {
+            "en": "OK"
+          }
+        },
+        "standby_enabled": {
+          "titleTrue": {
+            "en": "Enabled"
+          },
+          "titleFalse": {
+            "en": "Disabled"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/generator/assets/images/small.png",
+        "large": "/drivers/generator/assets/images/large.png",
+        "xlarge": "/drivers/generator/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials",
+          "options": {
+            "title": {
+              "en": "Sign in to Cummins Connect Cloud"
+            },
+            "usernameLabel": {
+              "en": "E-mail address"
+            },
+            "usernamePlaceholder": {
+              "en": "you@example.com"
+            },
+            "passwordLabel": {
+              "en": "Password (or paste a refresh token)"
+            },
+            "passwordPlaceholder": {
+              "en": "Password"
+            }
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices",
+            "prev": "login_credentials"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "repair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials",
+          "options": {
+            "title": {
+              "en": "Sign in again to Cummins Connect Cloud"
+            },
+            "usernameLabel": {
+              "en": "E-mail address"
+            },
+            "usernamePlaceholder": {
+              "en": "you@example.com"
+            },
+            "passwordLabel": {
+              "en": "Password (or paste a refresh token)"
+            },
+            "passwordPlaceholder": {
+              "en": "Password"
+            }
+          }
+        }
+      ],
+      "id": "generator",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Polling"
+          },
+          "children": [
+            {
+              "id": "poll_interval",
+              "type": "number",
+              "label": {
+                "en": "Poll interval (minutes)"
+              },
+              "hint": {
+                "en": "How often to fetch telemetry from Cummins Connect Cloud. The generator itself only checks in periodically, so faster polling mostly adds load, not freshness."
+              },
+              "value": 2,
+              "min": 1,
+              "max": 60,
+              "units": {
+                "en": "min"
+              }
+            },
+            {
+              "id": "stale_hours",
+              "type": "number",
+              "label": {
+                "en": "Data stale after (hours)"
+              },
+              "hint": {
+                "en": "Raise the 'Data stale' alarm when the generator hasn't checked in to the cloud for this long. 25 hours catches a missed daily check-in."
+              },
+              "value": 25,
+              "min": 1,
+              "max": 168,
+              "units": {
+                "en": "h"
+              }
+            },
+            {
+              "id": "exercise_overdue_days",
+              "type": "number",
+              "label": {
+                "en": "Exercise overdue after (days)"
+              },
+              "hint": {
+                "en": "Raise the 'Exercise overdue' alarm when no self-test has completed for this long. 8 days catches a missed weekly exercise."
+              },
+              "value": 8,
+              "min": 1,
+              "max": 90,
+              "units": {
+                "en": "d"
+              }
+            },
+            {
+              "id": "rated_kw",
+              "type": "number",
+              "label": {
+                "en": "Generator rated output (kW)"
+              },
+              "hint": {
+                "en": "Set your generator's nameplate rating (e.g. 20 for an RS20A) to estimate power output and energy produced from the reported load percentage. Leave at 0 to disable those two values."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 200,
+              "units": {
+                "en": "kW"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Remote commands (experimental)"
+          },
+          "children": [
+            {
+              "id": "commands_enabled",
+              "type": "checkbox",
+              "label": {
+                "en": "Enable experimental start/stop commands"
+              },
+              "hint": {
+                "en": "The exact cloud command format has never been publicly confirmed — these Flow cards send a best-effort request and may not work. They act on real equipment: enable only if you understand the risk. Commands also require remote control to be enabled on the generator itself."
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Notifications"
+          },
+          "children": [
+            {
+              "id": "notify_critical",
+              "type": "checkbox",
+              "label": {
+                "en": "Post critical events to the Homey timeline"
+              },
+              "hint": {
+                "en": "Adds a timeline entry when utility power is lost, the house switches to generator power, or a fault occurs. Flow cards give you finer control; this is the zero-setup version."
+              },
+              "value": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Device information"
+          },
+          "children": [
+            {
+              "id": "site_name",
+              "type": "label",
+              "label": {
+                "en": "Site"
+              },
+              "value": "-"
+            },
+            {
+              "id": "firmware_version",
+              "type": "label",
+              "label": {
+                "en": "Firmware version"
+              },
+              "value": "-"
+            },
+            {
+              "id": "remote_control",
+              "type": "label",
+              "label": {
+                "en": "Remote control enabled"
+              },
+              "value": "-"
+            },
+            {
+              "id": "raw_genset_status",
+              "type": "label",
+              "label": {
+                "en": "Raw gensetStatus code"
+              },
+              "hint": {
+                "en": "Undecoded integer from the cloud API. If you can correlate values with what the Cummins app shows, please report the mapping."
+              },
+              "value": "-"
+            },
+            {
+              "id": "raw_load_status",
+              "type": "label",
+              "label": {
+                "en": "Raw loadStatus code"
+              },
+              "value": "-"
+            },
+            {
+              "id": "raw_power_source",
+              "type": "label",
+              "label": {
+                "en": "Raw powerSource code"
+              },
+              "value": "-"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "Generator (Local, RS-series)"
+      },
+      "class": "other",
+      "capabilities": [
+        "generator_status",
+        "generator_running",
+        "on_generator_power",
+        "utility_power",
+        "generator_exercising",
+        "alarm_fault",
+        "alarm_action_required",
+        "measure_voltage.battery",
+        "measure_generator_load.line1",
+        "measure_generator_load.line2",
+        "measure_generator_output",
+        "meter_generator_energy",
+        "measure_voltage.output",
+        "measure_frequency",
+        "measure_engine_runtime",
+        "standby_enabled",
+        "button.exercise",
+        "button.sync_clock"
+      ],
+      "capabilitiesOptions": {
+        "measure_voltage.battery": {
+          "title": {
+            "en": "Battery voltage"
+          },
+          "decimals": 1
+        },
+        "measure_voltage.output": {
+          "title": {
+            "en": "Output voltage"
+          },
+          "decimals": 0
+        },
+        "measure_generator_load.line1": {
+          "title": {
+            "en": "Load line 1"
+          }
+        },
+        "measure_generator_load.line2": {
+          "title": {
+            "en": "Load line 2"
+          }
+        },
+        "button.exercise": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Run exercise now"
+          },
+          "desc": {
+            "en": "Starts an exercise (self-test) cycle. The generator's switch must be in REMOTE."
+          }
+        },
+        "button.sync_clock": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Sync generator clock"
+          },
+          "desc": {
+            "en": "Sets the generator's internal clock to Homey's current time."
+          }
+        },
+        "generator_running": {
+          "titleTrue": {
+            "en": "Running"
+          },
+          "titleFalse": {
+            "en": "Stopped"
+          }
+        },
+        "on_generator_power": {
+          "titleTrue": {
+            "en": "On backup power"
+          },
+          "titleFalse": {
+            "en": "No"
+          }
+        },
+        "utility_power": {
+          "titleTrue": {
+            "en": "Available"
+          },
+          "titleFalse": {
+            "en": "Out"
+          }
+        },
+        "generator_exercising": {
+          "titleTrue": {
+            "en": "Exercising"
+          },
+          "titleFalse": {
+            "en": "Idle"
+          }
+        },
+        "alarm_fault": {
+          "titleTrue": {
+            "en": "Fault"
+          },
+          "titleFalse": {
+            "en": "OK"
+          }
+        },
+        "alarm_action_required": {
+          "titleTrue": {
+            "en": "Attention needed"
+          },
+          "titleFalse": {
+            "en": "OK"
+          }
+        },
+        "standby_enabled": {
+          "titleTrue": {
+            "en": "Enabled"
+          },
+          "titleFalse": {
+            "en": "Disabled"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/generator-local/assets/images/small.png",
+        "large": "/drivers/generator-local/assets/images/large.png",
+        "xlarge": "/drivers/generator-local/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "connect"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices",
+            "prev": "connect"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "generator-local",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection"
+          },
+          "children": [
+            {
+              "id": "host",
+              "type": "text",
+              "label": {
+                "en": "IP address / hostname"
+              },
+              "value": ""
+            },
+            {
+              "id": "username",
+              "type": "text",
+              "label": {
+                "en": "Username"
+              },
+              "value": "admin"
+            },
+            {
+              "id": "password",
+              "type": "password",
+              "label": {
+                "en": "Password"
+              },
+              "value": "cummins"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Polling"
+          },
+          "children": [
+            {
+              "id": "poll_interval_s",
+              "type": "number",
+              "label": {
+                "en": "Poll interval (seconds)"
+              },
+              "value": 30,
+              "min": 5,
+              "max": 3600,
+              "units": {
+                "en": "s"
+              }
+            },
+            {
+              "id": "log_poll_cycles",
+              "type": "number",
+              "label": {
+                "en": "Check event/fault logs every N polls"
+              },
+              "hint": {
+                "en": "The event and fault logs are separate pages on the generator's web server; they change rarely, so they are fetched less often than live status."
+              },
+              "value": 10,
+              "min": 1,
+              "max": 100
+            },
+            {
+              "id": "rated_kw",
+              "type": "number",
+              "label": {
+                "en": "Generator rated output (kW)"
+              },
+              "hint": {
+                "en": "Set your generator's nameplate rating (e.g. 20 for an RS20A) to estimate power output and energy produced from the reported load percentage. Leave at 0 to disable those two values."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 200,
+              "units": {
+                "en": "kW"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Generator clock"
+          },
+          "children": [
+            {
+              "id": "auto_sync_clock",
+              "type": "checkbox",
+              "label": {
+                "en": "Automatically sync the generator clock"
+              },
+              "hint": {
+                "en": "When the generator's clock drifts more than the threshold from Homey's time, set it automatically (like the HA bridge's nightly time sync)."
+              },
+              "value": false
+            },
+            {
+              "id": "clock_drift_min",
+              "type": "number",
+              "label": {
+                "en": "Clock drift threshold (minutes)"
+              },
+              "value": 5,
+              "min": 1,
+              "max": 120,
+              "units": {
+                "en": "min"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Notifications"
+          },
+          "children": [
+            {
+              "id": "notify_critical",
+              "type": "checkbox",
+              "label": {
+                "en": "Post critical events to the Homey timeline"
+              },
+              "hint": {
+                "en": "Adds a timeline entry when utility power is lost, the house switches to generator power, or a fault occurs. Flow cards give you finer control; this is the zero-setup version."
+              },
+              "value": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Device information"
+          },
+          "children": [
+            {
+              "id": "exercise_schedule",
+              "type": "label",
+              "label": {
+                "en": "Exercise schedule"
+              },
+              "value": "-"
+            },
+            {
+              "id": "generator_clock",
+              "type": "label",
+              "label": {
+                "en": "Generator clock"
+              },
+              "value": "-"
+            },
+            {
+              "id": "auto_mode",
+              "type": "label",
+              "label": {
+                "en": "Auto mode"
+              },
+              "value": "-"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "widgets": {
+    "generator-status": {
+      "name": {
+        "en": "Generator status"
+      },
+      "settings": [
+        {
+          "id": "device",
+          "type": "autocomplete",
+          "title": {
+            "en": "Generator"
+          }
+        }
+      ],
+      "height": 100,
+      "api": {
+        "getStatus": {
+          "method": "GET",
+          "path": "/status"
+        }
+      },
+      "id": "generator-status"
+    }
+  },
+  "capabilities": {
+    "alarm_action_required": {
+      "type": "boolean",
+      "title": {
+        "en": "Action required"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Action required"
+      },
+      "insightsTitleFalse": {
+        "en": "Action resolved"
+      },
+      "icon": "/assets/capability-icons/alarm_action_required.svg"
+    },
+    "alarm_data_stale": {
+      "type": "boolean",
+      "title": {
+        "en": "Data stale"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Data went stale"
+      },
+      "insightsTitleFalse": {
+        "en": "Data fresh again"
+      },
+      "icon": "/assets/capability-icons/alarm_data_stale.svg"
+    },
+    "alarm_exercise_overdue": {
+      "type": "boolean",
+      "title": {
+        "en": "Exercise overdue"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Exercise became overdue"
+      },
+      "insightsTitleFalse": {
+        "en": "Exercise done"
+      },
+      "icon": "/assets/capability-icons/alarm_exercise_overdue.svg"
+    },
+    "alarm_fault": {
+      "type": "boolean",
+      "title": {
+        "en": "Fault"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Fault active"
+      },
+      "insightsTitleFalse": {
+        "en": "Fault cleared"
+      },
+      "icon": "/assets/capability-icons/alarm_fault.svg"
+    },
+    "generator_exercising": {
+      "type": "boolean",
+      "title": {
+        "en": "Exercising"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Exercise started"
+      },
+      "insightsTitleFalse": {
+        "en": "Exercise ended"
+      },
+      "icon": "/assets/capability-icons/generator_exercising.svg"
+    },
+    "generator_running": {
+      "type": "boolean",
+      "title": {
+        "en": "Running"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Generator started"
+      },
+      "insightsTitleFalse": {
+        "en": "Generator stopped"
+      },
+      "icon": "/assets/capability-icons/generator_running.svg"
+    },
+    "generator_status": {
+      "type": "string",
+      "title": {
+        "en": "Status"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/capability-icons/generator_status.svg"
+    },
+    "last_checkin": {
+      "type": "string",
+      "title": {
+        "en": "Last check-in"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/capability-icons/last_checkin.svg"
+    },
+    "last_exercise": {
+      "type": "string",
+      "title": {
+        "en": "Last exercise"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/capability-icons/last_exercise.svg"
+    },
+    "measure_engine_runtime": {
+      "type": "number",
+      "title": {
+        "en": "Engine runtime"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "units": {
+        "en": "h"
+      },
+      "decimals": 1,
+      "icon": "/assets/capability-icons/measure_engine_runtime.svg"
+    },
+    "measure_engine_speed": {
+      "type": "number",
+      "title": {
+        "en": "Engine speed"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "units": {
+        "en": "RPM"
+      },
+      "decimals": 0,
+      "icon": "/assets/capability-icons/measure_engine_speed.svg"
+    },
+    "measure_generator_load": {
+      "type": "number",
+      "title": {
+        "en": "Load"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "units": {
+        "en": "%"
+      },
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "icon": "/assets/capability-icons/measure_generator_load.svg"
+    },
+    "measure_generator_output": {
+      "type": "number",
+      "title": {
+        "en": "Power output"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "chartType": "stepLine",
+      "icon": "/assets/capability-icons/measure_generator_output.svg"
+    },
+    "meter_generator_energy": {
+      "type": "number",
+      "title": {
+        "en": "Energy produced"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 2,
+      "chartType": "stepLine",
+      "icon": "/assets/capability-icons/meter_generator_energy.svg"
+    },
+    "on_generator_power": {
+      "type": "boolean",
+      "title": {
+        "en": "On generator power"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Switched to generator power"
+      },
+      "insightsTitleFalse": {
+        "en": "Back on utility power"
+      },
+      "icon": "/assets/capability-icons/on_generator_power.svg"
+    },
+    "standby_enabled": {
+      "type": "boolean",
+      "title": {
+        "en": "Standby enabled"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Standby enabled"
+      },
+      "insightsTitleFalse": {
+        "en": "Standby disabled"
+      },
+      "icon": "/assets/capability-icons/standby_enabled.svg"
+    },
+    "utility_power": {
+      "type": "boolean",
+      "title": {
+        "en": "Utility power"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Utility power restored"
+      },
+      "insightsTitleFalse": {
+        "en": "Utility power lost"
+      },
+      "icon": "/assets/capability-icons/utility_power.svg"
+    }
+  }
+}

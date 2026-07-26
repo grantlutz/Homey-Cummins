@@ -1,0 +1,571 @@
+{
+  "triggers": [
+    {
+      "id": "local_generator_started",
+      "title": {
+        "en": "The generator started"
+      },
+      "highlight": true
+    },
+    {
+      "id": "local_generator_stopped",
+      "title": {
+        "en": "The generator stopped"
+      },
+      "highlight": true,
+      "tokens": [
+        {
+          "name": "runtime_hours",
+          "type": "number",
+          "title": {
+            "en": "Total runtime (h)"
+          },
+          "example": 27.6
+        }
+      ]
+    },
+    {
+      "id": "local_utility_lost",
+      "title": {
+        "en": "Utility power was lost"
+      },
+      "highlight": true
+    },
+    {
+      "id": "local_utility_restored",
+      "title": {
+        "en": "Utility power was restored"
+      },
+      "highlight": true
+    },
+    {
+      "id": "local_switched_to_generator",
+      "title": {
+        "en": "Switched to generator power"
+      }
+    },
+    {
+      "id": "local_switched_to_utility",
+      "title": {
+        "en": "Switched back to utility power"
+      }
+    },
+    {
+      "id": "local_exercise_started",
+      "title": {
+        "en": "An exercise (self-test) started"
+      }
+    },
+    {
+      "id": "local_exercise_completed",
+      "title": {
+        "en": "An exercise (self-test) completed"
+      }
+    },
+    {
+      "id": "local_fault_occurred",
+      "title": {
+        "en": "A fault occurred"
+      },
+      "highlight": true,
+      "tokens": [
+        {
+          "name": "code",
+          "type": "string",
+          "title": {
+            "en": "Fault code"
+          },
+          "example": "36"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "title": {
+            "en": "Description"
+          },
+          "example": "Low coolant level"
+        }
+      ]
+    },
+    {
+      "id": "local_fault_cleared",
+      "title": {
+        "en": "The fault cleared"
+      }
+    },
+    {
+      "id": "local_action_required",
+      "title": {
+        "en": "Action required turned on"
+      },
+      "hint": {
+        "en": "The generator's front panel is asking for attention."
+      }
+    },
+    {
+      "id": "local_status_changed",
+      "title": {
+        "en": "The status changed"
+      },
+      "tokens": [
+        {
+          "name": "status",
+          "type": "string",
+          "title": {
+            "en": "Status"
+          },
+          "example": "Running"
+        }
+      ]
+    },
+    {
+      "id": "local_event_logged",
+      "title": {
+        "en": "A new event was logged"
+      },
+      "tokens": [
+        {
+          "name": "code",
+          "type": "string",
+          "title": {
+            "en": "Event code"
+          },
+          "example": "58"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "title": {
+            "en": "Description"
+          },
+          "example": "Genset exercise completed"
+        }
+      ]
+    },
+    {
+      "id": "local_battery_below",
+      "title": {
+        "en": "The battery voltage dropped below..."
+      },
+      "titleFormatted": {
+        "en": "The battery voltage dropped below [[voltage]] V"
+      },
+      "args": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "min": 8,
+          "max": 16,
+          "step": 0.1,
+          "placeholder": {
+            "en": "12.0"
+          },
+          "title": {
+            "en": "Voltage (V)"
+          }
+        }
+      ],
+      "tokens": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "title": {
+            "en": "Battery voltage"
+          },
+          "example": 11.9
+        }
+      ]
+    },
+    {
+      "id": "local_load_above",
+      "title": {
+        "en": "The load rose above..."
+      },
+      "titleFormatted": {
+        "en": "The load rose above [[percent]] % (either line)"
+      },
+      "args": [
+        {
+          "name": "percent",
+          "type": "number",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "placeholder": {
+            "en": "80"
+          },
+          "title": {
+            "en": "Load (%)"
+          }
+        }
+      ],
+      "tokens": [
+        {
+          "name": "load",
+          "type": "number",
+          "title": {
+            "en": "Load %"
+          },
+          "example": 85
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "local_is_running",
+      "title": {
+        "en": "The generator !{{is|isn't}} running"
+      }
+    },
+    {
+      "id": "local_utility_available",
+      "title": {
+        "en": "Utility power !{{is|isn't}} present"
+      }
+    },
+    {
+      "id": "local_on_generator",
+      "title": {
+        "en": "The house !{{is|isn't}} on generator power"
+      }
+    },
+    {
+      "id": "local_is_exercising",
+      "title": {
+        "en": "The generator !{{is|isn't}} exercising"
+      }
+    },
+    {
+      "id": "local_has_fault",
+      "title": {
+        "en": "The generator !{{has|doesn't have}} an active fault"
+      }
+    },
+    {
+      "id": "local_standby_enabled",
+      "title": {
+        "en": "Standby !{{is|isn't}} enabled"
+      }
+    },
+    {
+      "id": "local_action_required_cond",
+      "title": {
+        "en": "Action !{{is|isn't}} required"
+      }
+    },
+    {
+      "id": "local_status_is",
+      "title": {
+        "en": "The status !{{is|isn't}}..."
+      },
+      "titleFormatted": {
+        "en": "The status !{{is|isn't}} [[status]]"
+      },
+      "args": [
+        {
+          "name": "status",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "stopped",
+              "label": {
+                "en": "Stopped"
+              }
+            },
+            {
+              "id": "starting",
+              "label": {
+                "en": "Starting"
+              }
+            },
+            {
+              "id": "running",
+              "label": {
+                "en": "Running"
+              }
+            },
+            {
+              "id": "priming",
+              "label": {
+                "en": "Priming"
+              }
+            },
+            {
+              "id": "fault",
+              "label": {
+                "en": "Fault"
+              }
+            },
+            {
+              "id": "engine_only",
+              "label": {
+                "en": "Engine Only"
+              }
+            },
+            {
+              "id": "test_mode",
+              "label": {
+                "en": "Test Mode"
+              }
+            },
+            {
+              "id": "volt_adj",
+              "label": {
+                "en": "Voltage Adjust"
+              }
+            },
+            {
+              "id": "config",
+              "label": {
+                "en": "Config Mode"
+              }
+            },
+            {
+              "id": "crank_pause",
+              "label": {
+                "en": "Cycle Crank Pause"
+              }
+            },
+            {
+              "id": "exercising",
+              "label": {
+                "en": "Exercising"
+              }
+            },
+            {
+              "id": "cooldown",
+              "label": {
+                "en": "Engine Cooldown"
+              }
+            }
+          ],
+          "title": {
+            "en": "Status"
+          }
+        }
+      ]
+    },
+    {
+      "id": "local_battery_above",
+      "title": {
+        "en": "The battery voltage !{{is|isn't}} above..."
+      },
+      "titleFormatted": {
+        "en": "The battery voltage !{{is|isn't}} above [[voltage]] V"
+      },
+      "args": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "min": 8,
+          "max": 16,
+          "step": 0.1,
+          "placeholder": {
+            "en": "12.0"
+          },
+          "title": {
+            "en": "Voltage (V)"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "local_start_generator",
+      "title": {
+        "en": "Start the generator"
+      },
+      "hint": {
+        "en": "Starts the engine via the generator's local interface. The generator's switch must be in REMOTE."
+      }
+    },
+    {
+      "id": "local_stop_generator",
+      "title": {
+        "en": "Stop the generator"
+      },
+      "hint": {
+        "en": "Stops the engine via the generator's local interface. The generator's switch must be in REMOTE."
+      }
+    },
+    {
+      "id": "local_exercise_now",
+      "title": {
+        "en": "Run an exercise (self-test) now"
+      }
+    },
+    {
+      "id": "local_standby_on",
+      "title": {
+        "en": "Enable standby"
+      },
+      "hint": {
+        "en": "Arms the generator so it will auto-start on a utility outage."
+      }
+    },
+    {
+      "id": "local_standby_off",
+      "title": {
+        "en": "Disable standby"
+      },
+      "hint": {
+        "en": "Disarms auto-start. The generator will NOT start automatically during an outage while disabled."
+      }
+    },
+    {
+      "id": "local_set_exercise_schedule",
+      "title": {
+        "en": "Set the exercise schedule"
+      },
+      "titleFormatted": {
+        "en": "Exercise [[frequency]] on [[day]] at [[hour]]:[[minute]]"
+      },
+      "args": [
+        {
+          "name": "frequency",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "never",
+              "label": {
+                "en": "Never"
+              }
+            },
+            {
+              "id": "weekly",
+              "label": {
+                "en": "Weekly"
+              }
+            },
+            {
+              "id": "bimonthly",
+              "label": {
+                "en": "Every two weeks"
+              }
+            },
+            {
+              "id": "monthly",
+              "label": {
+                "en": "Monthly"
+              }
+            }
+          ],
+          "title": {
+            "en": "Frequency"
+          }
+        },
+        {
+          "name": "day",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "0",
+              "label": {
+                "en": "Sunday"
+              }
+            },
+            {
+              "id": "1",
+              "label": {
+                "en": "Monday"
+              }
+            },
+            {
+              "id": "2",
+              "label": {
+                "en": "Tuesday"
+              }
+            },
+            {
+              "id": "3",
+              "label": {
+                "en": "Wednesday"
+              }
+            },
+            {
+              "id": "4",
+              "label": {
+                "en": "Thursday"
+              }
+            },
+            {
+              "id": "5",
+              "label": {
+                "en": "Friday"
+              }
+            },
+            {
+              "id": "6",
+              "label": {
+                "en": "Saturday"
+              }
+            }
+          ],
+          "title": {
+            "en": "Day"
+          }
+        },
+        {
+          "name": "hour",
+          "type": "number",
+          "min": 0,
+          "max": 23,
+          "step": 1,
+          "placeholder": {
+            "en": "10"
+          },
+          "title": {
+            "en": "Hour (0-23)"
+          }
+        },
+        {
+          "name": "minute",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "0",
+              "label": {
+                "en": "00"
+              }
+            },
+            {
+              "id": "15",
+              "label": {
+                "en": "15"
+              }
+            },
+            {
+              "id": "30",
+              "label": {
+                "en": "30"
+              }
+            },
+            {
+              "id": "45",
+              "label": {
+                "en": "45"
+              }
+            }
+          ],
+          "title": {
+            "en": "Minute"
+          }
+        }
+      ]
+    },
+    {
+      "id": "local_sync_clock",
+      "title": {
+        "en": "Sync the generator clock"
+      }
+    },
+    {
+      "id": "local_refresh",
+      "title": {
+        "en": "Refresh generator data"
+      }
+    }
+  ]
+}

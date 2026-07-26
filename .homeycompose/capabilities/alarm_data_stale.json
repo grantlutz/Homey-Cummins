@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Data stale"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Data went stale"
+  },
+  "insightsTitleFalse": {
+    "en": "Data fresh again"
+  },
+  "icon": "/assets/capability-icons/alarm_data_stale.svg"
+}

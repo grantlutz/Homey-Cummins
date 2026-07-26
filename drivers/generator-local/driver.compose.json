@@ -1,0 +1,152 @@
+{
+  "name": {
+    "en": "Generator (Local, RS-series)"
+  },
+  "class": "other",
+  "capabilities": [
+    "generator_status",
+    "generator_running",
+    "on_generator_power",
+    "utility_power",
+    "generator_exercising",
+    "alarm_fault",
+    "alarm_action_required",
+    "measure_voltage.battery",
+    "measure_generator_load.line1",
+    "measure_generator_load.line2",
+    "measure_generator_output",
+    "meter_generator_energy",
+    "measure_voltage.output",
+    "measure_frequency",
+    "measure_engine_runtime",
+    "standby_enabled",
+    "button.exercise",
+    "button.sync_clock"
+  ],
+  "capabilitiesOptions": {
+    "measure_voltage.battery": {
+      "title": {
+        "en": "Battery voltage"
+      },
+      "decimals": 1
+    },
+    "measure_voltage.output": {
+      "title": {
+        "en": "Output voltage"
+      },
+      "decimals": 0
+    },
+    "measure_generator_load.line1": {
+      "title": {
+        "en": "Load line 1"
+      }
+    },
+    "measure_generator_load.line2": {
+      "title": {
+        "en": "Load line 2"
+      }
+    },
+    "button.exercise": {
+      "maintenanceAction": true,
+      "title": {
+        "en": "Run exercise now"
+      },
+      "desc": {
+        "en": "Starts an exercise (self-test) cycle. The generator's switch must be in REMOTE."
+      }
+    },
+    "button.sync_clock": {
+      "maintenanceAction": true,
+      "title": {
+        "en": "Sync generator clock"
+      },
+      "desc": {
+        "en": "Sets the generator's internal clock to Homey's current time."
+      }
+    },
+    "generator_running": {
+      "titleTrue": {
+        "en": "Running"
+      },
+      "titleFalse": {
+        "en": "Stopped"
+      }
+    },
+    "on_generator_power": {
+      "titleTrue": {
+        "en": "On backup power"
+      },
+      "titleFalse": {
+        "en": "No"
+      }
+    },
+    "utility_power": {
+      "titleTrue": {
+        "en": "Available"
+      },
+      "titleFalse": {
+        "en": "Out"
+      }
+    },
+    "generator_exercising": {
+      "titleTrue": {
+        "en": "Exercising"
+      },
+      "titleFalse": {
+        "en": "Idle"
+      }
+    },
+    "alarm_fault": {
+      "titleTrue": {
+        "en": "Fault"
+      },
+      "titleFalse": {
+        "en": "OK"
+      }
+    },
+    "alarm_action_required": {
+      "titleTrue": {
+        "en": "Attention needed"
+      },
+      "titleFalse": {
+        "en": "OK"
+      }
+    },
+    "standby_enabled": {
+      "titleTrue": {
+        "en": "Enabled"
+      },
+      "titleFalse": {
+        "en": "Disabled"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "/drivers/generator-local/assets/images/small.png",
+    "large": "/drivers/generator-local/assets/images/large.png",
+    "xlarge": "/drivers/generator-local/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "connect"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices",
+        "prev": "connect"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

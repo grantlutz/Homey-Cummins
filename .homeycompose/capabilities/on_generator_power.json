@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "On generator power"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Switched to generator power"
+  },
+  "insightsTitleFalse": {
+    "en": "Back on utility power"
+  },
+  "icon": "/assets/capability-icons/on_generator_power.svg"
+}

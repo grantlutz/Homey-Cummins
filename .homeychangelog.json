@@ -1,0 +1,5 @@
+{
+  "1.0.0": {
+    "en": "Initial release: monitor Cummins QuietConnect generators via Connect Cloud and RS-series generators via the local web interface, with full Flow support and a dashboard widget."
+  }
+}

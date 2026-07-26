@@ -1,0 +1,10 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Last check-in"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/capability-icons/last_checkin.svg"
+}

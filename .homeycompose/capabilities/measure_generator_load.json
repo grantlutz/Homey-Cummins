@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Load"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "units": {
+    "en": "%"
+  },
+  "min": 0,
+  "max": 100,
+  "decimals": 0,
+  "icon": "/assets/capability-icons/measure_generator_load.svg"
+}

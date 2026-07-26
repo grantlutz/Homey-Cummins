@@ -1,0 +1,167 @@
+[
+  {
+    "type": "group",
+    "label": {
+      "en": "Connection"
+    },
+    "children": [
+      {
+        "id": "host",
+        "type": "text",
+        "label": {
+          "en": "IP address / hostname"
+        },
+        "value": ""
+      },
+      {
+        "id": "username",
+        "type": "text",
+        "label": {
+          "en": "Username"
+        },
+        "value": "admin"
+      },
+      {
+        "id": "password",
+        "type": "password",
+        "label": {
+          "en": "Password"
+        },
+        "value": "cummins"
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Polling"
+    },
+    "children": [
+      {
+        "id": "poll_interval_s",
+        "type": "number",
+        "label": {
+          "en": "Poll interval (seconds)"
+        },
+        "value": 30,
+        "min": 5,
+        "max": 3600,
+        "units": {
+          "en": "s"
+        }
+      },
+      {
+        "id": "log_poll_cycles",
+        "type": "number",
+        "label": {
+          "en": "Check event/fault logs every N polls"
+        },
+        "hint": {
+          "en": "The event and fault logs are separate pages on the generator's web server; they change rarely, so they are fetched less often than live status."
+        },
+        "value": 10,
+        "min": 1,
+        "max": 100
+      },
+      {
+        "id": "rated_kw",
+        "type": "number",
+        "label": {
+          "en": "Generator rated output (kW)"
+        },
+        "hint": {
+          "en": "Set your generator's nameplate rating (e.g. 20 for an RS20A) to estimate power output and energy produced from the reported load percentage. Leave at 0 to disable those two values."
+        },
+        "value": 0,
+        "min": 0,
+        "max": 200,
+        "units": {
+          "en": "kW"
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Generator clock"
+    },
+    "children": [
+      {
+        "id": "auto_sync_clock",
+        "type": "checkbox",
+        "label": {
+          "en": "Automatically sync the generator clock"
+        },
+        "hint": {
+          "en": "When the generator's clock drifts more than the threshold from Homey's time, set it automatically (like the HA bridge's nightly time sync)."
+        },
+        "value": false
+      },
+      {
+        "id": "clock_drift_min",
+        "type": "number",
+        "label": {
+          "en": "Clock drift threshold (minutes)"
+        },
+        "value": 5,
+        "min": 1,
+        "max": 120,
+        "units": {
+          "en": "min"
+        }
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Notifications"
+    },
+    "children": [
+      {
+        "id": "notify_critical",
+        "type": "checkbox",
+        "label": {
+          "en": "Post critical events to the Homey timeline"
+        },
+        "hint": {
+          "en": "Adds a timeline entry when utility power is lost, the house switches to generator power, or a fault occurs. Flow cards give you finer control; this is the zero-setup version."
+        },
+        "value": true
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Device information"
+    },
+    "children": [
+      {
+        "id": "exercise_schedule",
+        "type": "label",
+        "label": {
+          "en": "Exercise schedule"
+        },
+        "value": "-"
+      },
+      {
+        "id": "generator_clock",
+        "type": "label",
+        "label": {
+          "en": "Generator clock"
+        },
+        "value": "-"
+      },
+      {
+        "id": "auto_mode",
+        "type": "label",
+        "label": {
+          "en": "Auto mode"
+        },
+        "value": "-"
+      }
+    ]
+  }
+]

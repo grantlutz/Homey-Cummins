@@ -1,0 +1,346 @@
+{
+  "triggers": [
+    {
+      "id": "generator_started",
+      "title": {
+        "en": "The generator started"
+      },
+      "highlight": true
+    },
+    {
+      "id": "generator_stopped",
+      "title": {
+        "en": "The generator stopped"
+      },
+      "highlight": true,
+      "tokens": [
+        {
+          "name": "runtime_hours",
+          "type": "number",
+          "title": {
+            "en": "Total runtime (h)"
+          },
+          "example": 27.6
+        }
+      ]
+    },
+    {
+      "id": "utility_power_lost",
+      "title": {
+        "en": "Utility power was lost"
+      },
+      "highlight": true
+    },
+    {
+      "id": "utility_power_restored",
+      "title": {
+        "en": "Utility power was restored"
+      },
+      "highlight": true
+    },
+    {
+      "id": "switched_to_generator",
+      "title": {
+        "en": "Switched to generator power"
+      }
+    },
+    {
+      "id": "switched_to_utility",
+      "title": {
+        "en": "Switched back to utility power"
+      }
+    },
+    {
+      "id": "exercise_started",
+      "title": {
+        "en": "An exercise (self-test) started"
+      }
+    },
+    {
+      "id": "exercise_completed",
+      "title": {
+        "en": "An exercise (self-test) completed"
+      }
+    },
+    {
+      "id": "fault_occurred",
+      "title": {
+        "en": "A fault occurred"
+      },
+      "highlight": true,
+      "tokens": [
+        {
+          "name": "fault_type",
+          "type": "number",
+          "title": {
+            "en": "Fault type"
+          },
+          "example": 2
+        }
+      ]
+    },
+    {
+      "id": "fault_cleared",
+      "title": {
+        "en": "The fault cleared"
+      }
+    },
+    {
+      "id": "data_went_stale",
+      "title": {
+        "en": "Generator data went stale"
+      },
+      "hint": {
+        "en": "The generator hasn't checked in to Cummins Connect Cloud for longer than the configured threshold — it may be offline."
+      }
+    },
+    {
+      "id": "data_fresh_again",
+      "title": {
+        "en": "Generator data is fresh again"
+      }
+    },
+    {
+      "id": "exercise_became_overdue",
+      "title": {
+        "en": "The exercise became overdue"
+      },
+      "hint": {
+        "en": "No self-test has completed within the configured threshold."
+      }
+    },
+    {
+      "id": "battery_voltage_below",
+      "title": {
+        "en": "The battery voltage dropped below..."
+      },
+      "titleFormatted": {
+        "en": "The battery voltage dropped below [[voltage]] V"
+      },
+      "hint": {
+        "en": "Fires once when the starter battery voltage crosses below the threshold. The battery starts the generator — a weak battery means no backup power when you need it."
+      },
+      "args": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "min": 8,
+          "max": 16,
+          "step": 0.1,
+          "placeholder": {
+            "en": "12.0"
+          },
+          "title": {
+            "en": "Voltage (V)"
+          }
+        }
+      ],
+      "tokens": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "title": {
+            "en": "Battery voltage"
+          },
+          "example": 11.9
+        }
+      ]
+    },
+    {
+      "id": "load_above",
+      "title": {
+        "en": "The load rose above..."
+      },
+      "titleFormatted": {
+        "en": "The load rose above [[percent]] %"
+      },
+      "args": [
+        {
+          "name": "percent",
+          "type": "number",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "placeholder": {
+            "en": "80"
+          },
+          "title": {
+            "en": "Load (%)"
+          }
+        }
+      ],
+      "tokens": [
+        {
+          "name": "load",
+          "type": "number",
+          "title": {
+            "en": "Load %"
+          },
+          "example": 85
+        }
+      ]
+    },
+    {
+      "id": "generator_event",
+      "title": {
+        "en": "A new event was logged"
+      },
+      "hint": {
+        "en": "Fires for every new event in the generator's cloud event history (faults, exercises, state changes)."
+      },
+      "tokens": [
+        {
+          "name": "severity",
+          "type": "string",
+          "title": {
+            "en": "Severity"
+          },
+          "example": "Warning"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "title": {
+            "en": "Code"
+          },
+          "example": "1121"
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "title": {
+            "en": "Message"
+          },
+          "example": "Genset exercise completed"
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "is_running",
+      "title": {
+        "en": "The generator !{{is|isn't}} running"
+      }
+    },
+    {
+      "id": "utility_available",
+      "title": {
+        "en": "Utility power !{{is|isn't}} available"
+      }
+    },
+    {
+      "id": "on_generator",
+      "title": {
+        "en": "The house !{{is|isn't}} on generator power"
+      }
+    },
+    {
+      "id": "is_exercising",
+      "title": {
+        "en": "The generator !{{is|isn't}} exercising"
+      }
+    },
+    {
+      "id": "has_fault",
+      "title": {
+        "en": "The generator !{{has|doesn't have}} an active fault"
+      }
+    },
+    {
+      "id": "is_stale",
+      "title": {
+        "en": "Generator data !{{is|isn't}} stale"
+      }
+    },
+    {
+      "id": "is_exercise_overdue",
+      "title": {
+        "en": "The exercise !{{is|isn't}} overdue"
+      }
+    },
+    {
+      "id": "standby_is_enabled",
+      "title": {
+        "en": "Standby !{{is|isn't}} enabled"
+      }
+    },
+    {
+      "id": "battery_above",
+      "title": {
+        "en": "The battery voltage !{{is|isn't}} above..."
+      },
+      "titleFormatted": {
+        "en": "The battery voltage !{{is|isn't}} above [[voltage]] V"
+      },
+      "args": [
+        {
+          "name": "voltage",
+          "type": "number",
+          "min": 8,
+          "max": 16,
+          "step": 0.1,
+          "placeholder": {
+            "en": "12.0"
+          },
+          "title": {
+            "en": "Voltage (V)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "load_is_above",
+      "title": {
+        "en": "The load !{{is|isn't}} above..."
+      },
+      "titleFormatted": {
+        "en": "The load !{{is|isn't}} above [[percent]] %"
+      },
+      "args": [
+        {
+          "name": "percent",
+          "type": "number",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "placeholder": {
+            "en": "80"
+          },
+          "title": {
+            "en": "Load (%)"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "refresh_now",
+      "title": {
+        "en": "Refresh generator data"
+      },
+      "hint": {
+        "en": "Poll Cummins Connect Cloud immediately instead of waiting for the next scheduled poll."
+      }
+    },
+    {
+      "id": "start_generator_experimental",
+      "title": {
+        "en": "Start the generator (EXPERIMENTAL)"
+      },
+      "hint": {
+        "en": "Sends a best-effort StartGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+      }
+    },
+    {
+      "id": "stop_generator_experimental",
+      "title": {
+        "en": "Stop the generator (EXPERIMENTAL)"
+      },
+      "hint": {
+        "en": "Sends a best-effort StopGenset command. The cloud command format has never been publicly confirmed — this may fail. Requires 'Enable experimental start/stop commands' in the device settings and remote control enabled on the generator."
+      }
+    }
+  ]
+}

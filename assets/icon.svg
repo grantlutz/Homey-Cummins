@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960">
+  <!-- Standby generator enclosure -->
+  <path fill-rule="evenodd" d="M180 300 h600 a60 60 0 0 1 60 60 v360 a60 60 0 0 1 -60 60 H180 a60 60 0 0 1 -60 -60 V360 a60 60 0 0 1 60 -60 Z M210 360 a30 30 0 0 0 -30 30 v300 a30 30 0 0 0 30 30 h540 a30 30 0 0 0 30 -30 V390 a30 30 0 0 0 -30 -30 Z"/>
+  <!-- Exhaust -->
+  <rect x="660" y="220" width="60" height="60"/>
+  <rect x="630" y="180" width="120" height="40" rx="20"/>
+  <!-- Lightning bolt -->
+  <path d="M525 395 L395 570 h75 L430 685 L565 510 h-80 Z"/>
+  <!-- Skids -->
+  <rect x="130" y="800" width="280" height="44" rx="22"/>
+  <rect x="550" y="800" width="280" height="44" rx="22"/>
+</svg>

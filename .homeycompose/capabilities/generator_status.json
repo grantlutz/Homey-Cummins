@@ -1,0 +1,10 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Status"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/capability-icons/generator_status.svg"
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="text/javascript" src="/homey.js" data-origin="widget"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .widget {
+      display: flex;
+      align-items: center;
+      height: 100px;
+      padding: 0 var(--homey-su-4, 16px);
+      box-sizing: border-box;
+      gap: 14px;
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #9aa0a6;
+    }
+    .dot.ok { background: #2ecc71; }
+    .dot.running { background: #f39c12; }
+    .dot.alarm { background: #e74c3c; }
+    .info { flex: 1; min-width: 0; }
+    .status {
+      font-size: var(--homey-font-size-default, 16px);
+      font-weight: 600;
+      color: var(--homey-text-color, #222);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .detail {
+      font-size: var(--homey-font-size-small, 13px);
+      color: var(--homey-text-color-light, #777);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget">
+    <div class="dot" id="dot"></div>
+    <div class="info">
+      <div class="status" id="status">—</div>
+      <div class="detail" id="detail">Select a generator in the widget settings</div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function onHomeyReady(Homey) {
+      Homey.ready();
+
+      var settings = Homey.getSettings();
+
+      function render(s) {
+        var dot = document.getElementById('dot');
+        var status = document.getElementById('status');
+        var detail = document.getElementById('detail');
+        if (!s) {
+          status.textContent = 'No generator selected';
+          detail.textContent = 'Choose one in the widget settings';
+          dot.className = 'dot';
+          return;
+        }
+        status.textContent = s.name + ' · ' + (s.status || 'Unknown');
+        var parts = [];
+        if (typeof s.battery === 'number') parts.push('Battery ' + s.battery.toFixed(1) + ' V');
+        if (typeof s.load === 'number') parts.push('Load ' + s.load + '%');
+        if (typeof s.output === 'number' && s.output > 0) {
+          parts.push((s.output / 1000).toFixed(1) + ' kW');
+        }
+        if (s.utility === true) parts.push('Utility power');
+        if (s.utility === false) parts.push('Utility OUT');
+        detail.textContent = parts.join(' · ') || (s.available ? 'OK' : 'Unavailable');
+        dot.className = 'dot ' + (
+          !s.available || s.fault || s.stale ? 'alarm'
+            : s.running ? 'running'
+              : 'ok'
+        );
+      }
+
+      function refresh() {
+        if (!settings || !settings.device || !settings.device.id) {
+          render(null);
+          return;
+        }
+        Homey.api('GET', '/status?deviceId=' + encodeURIComponent(settings.device.id))
+          .then(render)
+          .catch(function () {
+            document.getElementById('detail').textContent = 'Could not reach the app';
+          });
+      }
+
+      refresh();
+      setInterval(refresh, 15000);
+    }
+  </script>
+</body>
+</html>

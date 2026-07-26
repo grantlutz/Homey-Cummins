@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Energy produced"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 2,
+  "chartType": "stepLine",
+  "icon": "/assets/capability-icons/meter_generator_energy.svg"
+}

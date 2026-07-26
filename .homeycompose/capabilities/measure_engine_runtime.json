@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Engine runtime"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "units": {
+    "en": "h"
+  },
+  "decimals": 1,
+  "icon": "/assets/capability-icons/measure_engine_runtime.svg"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Running"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Generator started"
+  },
+  "insightsTitleFalse": {
+    "en": "Generator stopped"
+  },
+  "icon": "/assets/capability-icons/generator_running.svg"
+}

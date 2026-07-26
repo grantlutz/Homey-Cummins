@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+  <style>
+    body { padding-bottom: 2em; }
+    .card {
+      border: 1px solid var(--homey-border-color, #e3e3e3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .row { display: flex; align-items: baseline; gap: 8px; }
+    .name { font-weight: 600; flex: 1; }
+    .pill {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      color: #1b5e20;
+      white-space: nowrap;
+    }
+    .pill.bad { background: #ffebee; color: #b71c1c; }
+    .pill.warn { background: #fff8e1; color: #e65100; }
+    .meta { font-size: 13px; color: var(--homey-text-color-light, #777); margin-top: 6px; }
+    .empty { color: var(--homey-text-color-light, #777); font-style: italic; }
+    details { margin-top: 1.5em; }
+    summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+    details p, details li { font-size: 14px; line-height: 1.5; }
+    code {
+      background: rgba(127,127,127,0.15);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header class="homey-header">
+    <h1 class="homey-title" data-i18n="settings.title">Cummins Generator</h1>
+    <p class="homey-subtitle" data-i18n="settings.subtitle">Status of your paired generators and troubleshooting help.</p>
+  </header>
+
+  <div id="devices"><p class="empty">Loading…</p></div>
+
+  <button class="homey-button-primary-full" id="refresh">Refresh all generators now</button>
+
+  <details>
+    <summary>Sign-in problems (Connect Cloud)</summary>
+    <p>
+      Cummins' login runs through Salesforce, which inspects how a client
+      connects (its TLS fingerprint) and may refuse anything that isn't a
+      real browser. If pairing failed with a message about being blocked,
+      use a refresh token instead:
+    </p>
+    <ol>
+      <li>On any computer, clone
+        <code>github.com/tebrown/cummins_hacs</code>.</li>
+      <li>Install its tools:
+        <code>pip install -r tools/requirements.txt</code> then
+        <code>playwright install chromium</code>.</li>
+      <li>Run <code>python tools/bootstrap_login.py</code> with your
+        <code>CUMMINS_USERNAME</code> and <code>CUMMINS_PASSWORD</code> set.</li>
+      <li>Paste the printed refresh token into the <em>password</em> field
+        when pairing (any e-mail address works).</li>
+    </ol>
+    <p>
+      Sessions expire eventually. When one does, the device becomes
+      unavailable — use <em>Repair</em> on the device to sign in again.
+    </p>
+  </details>
+
+  <details>
+    <summary>Remote start / stop</summary>
+    <p>
+      <strong>Local RS-series generators:</strong> start, stop, exercise,
+      standby and schedule commands use the generator's own documented
+      control interface. The switch on the generator must be set to
+      <strong>REMOTE</strong> or commands are ignored.
+    </p>
+    <p>
+      <strong>Connect Cloud generators:</strong> the cloud command format has
+      never been publicly confirmed, so those Flow cards are experimental and
+      disabled by default. Enable them per device under
+      <em>Device → Settings → Remote commands</em> if you want to try them.
+    </p>
+    <p>
+      Disabling standby means the generator will <strong>not</strong> start
+      by itself during an outage.
+    </p>
+  </details>
+
+  <script type="text/javascript">
+    function onHomeyReady(Homey) {
+      Homey.ready();
+
+      function pill(text, cls) {
+        return '<span class="pill ' + (cls || '') + '">' + text + '</span>';
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+
+      function render(list) {
+        var el = document.getElementById('devices');
+        if (!list || !list.length) {
+          el.innerHTML = '<p class="empty">No generators paired yet. Add one from Devices.</p>';
+          return;
+        }
+        el.innerHTML = list.map(function (d) {
+          var badge = !d.available ? pill('Unavailable', 'bad')
+            : d.fault ? pill('Fault', 'bad')
+              : d.stale ? pill('Stale', 'warn')
+                : d.running ? pill('Running', 'warn')
+                  : pill('Standby');
+          var bits = [];
+          bits.push(d.driver === 'generator' ? 'Connect Cloud' : 'Local');
+          if (d.status) bits.push(esc(d.status));
+          if (typeof d.battery === 'number') bits.push('Battery ' + d.battery.toFixed(1) + ' V');
+          if (typeof d.runtime === 'number') bits.push('Runtime ' + d.runtime.toFixed(1) + ' h');
+          if (d.lastCheckIn) bits.push('Checked in ' + esc(d.lastCheckIn));
+          if (d.unavailableMessage) bits.push(esc(d.unavailableMessage));
+          return '<div class="card"><div class="row"><span class="name">'
+            + esc(d.name) + '</span>' + badge + '</div><div class="meta">'
+            + bits.join(' · ') + '</div></div>';
+        }).join('');
+      }
+
+      function load() {
+        Homey.api('GET', '/diagnostics', null, function (err, result) {
+          if (err) {
+            document.getElementById('devices').innerHTML =
+              '<p class="empty">Could not read status: ' + esc(err.message || err) + '</p>';
+            return;
+          }
+          render(result);
+        });
+      }
+
+      document.getElementById('refresh').addEventListener('click', function () {
+        var button = document.getElementById('refresh');
+        button.disabled = true;
+        Homey.api('POST', '/refresh', {}, function (err) {
+          button.disabled = false;
+          if (err) {
+            Homey.alert(err.message || String(err));
+            return;
+          }
+          load();
+        });
+      });
+
+      load();
+      setInterval(load, 30000);
+    }
+  </script>
+</body>
+</html>

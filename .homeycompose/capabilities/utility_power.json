@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Utility power"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Utility power restored"
+  },
+  "insightsTitleFalse": {
+    "en": "Utility power lost"
+  },
+  "icon": "/assets/capability-icons/utility_power.svg"
+}

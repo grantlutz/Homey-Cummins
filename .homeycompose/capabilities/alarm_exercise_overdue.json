@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Exercise overdue"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Exercise became overdue"
+  },
+  "insightsTitleFalse": {
+    "en": "Exercise done"
+  },
+  "icon": "/assets/capability-icons/alarm_exercise_overdue.svg"
+}

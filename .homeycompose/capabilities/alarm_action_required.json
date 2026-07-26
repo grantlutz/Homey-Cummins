@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Action required"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Action required"
+  },
+  "insightsTitleFalse": {
+    "en": "Action resolved"
+  },
+  "icon": "/assets/capability-icons/alarm_action_required.svg"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Exercising"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Exercise started"
+  },
+  "insightsTitleFalse": {
+    "en": "Exercise ended"
+  },
+  "icon": "/assets/capability-icons/generator_exercising.svg"
+}

@@ -1,0 +1,70 @@
+<style>
+  .cummins-pair {
+    padding: 0 1em;
+  }
+  .cummins-pair .homey-form-group {
+    margin-bottom: 1em;
+  }
+  .cummins-pair .hint {
+    font-size: 0.85em;
+    opacity: 0.7;
+    margin-top: 1.5em;
+    line-height: 1.4;
+  }
+</style>
+
+<div class="cummins-pair">
+  <header class="homey-header">
+    <h1 class="homey-title">Connect to your generator</h1>
+    <p class="homey-subtitle">Enter the address of the generator's local web interface.</p>
+  </header>
+
+  <form id="connect-form">
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="host">IP address / hostname</label>
+      <input class="homey-form-input" id="host" type="text" placeholder="192.168.1.50" autocomplete="off" />
+    </div>
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="username">Username</label>
+      <input class="homey-form-input" id="username" type="text" value="admin" autocomplete="off" />
+    </div>
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="password">Password</label>
+      <input class="homey-form-input" id="password" type="password" value="cummins" />
+    </div>
+    <button class="homey-button-primary-full" id="connect-button" type="submit">Connect</button>
+  </form>
+
+  <p class="hint">
+    Works with older RS-series Cummins generators that have the Ethernet
+    web-interface card (the same interface you can open in a browser —
+    default login admin / cummins). For remote start/stop from Homey, the
+    switch on the generator must be set to REMOTE.
+  </p>
+</div>
+
+<script type="text/javascript">
+  Homey.setTitle('Local generator');
+
+  document.getElementById('connect-form').addEventListener('submit', function onSubmit(event) {
+    event.preventDefault();
+    var host = document.getElementById('host').value.trim();
+    var username = document.getElementById('username').value.trim() || 'admin';
+    var password = document.getElementById('password').value;
+
+    if (!host) {
+      Homey.alert('Please enter the generator\'s IP address or hostname.');
+      return;
+    }
+
+    Homey.showLoadingOverlay();
+    Homey.emit('connect', { host: host, username: username, password: password })
+      .then(function () {
+        Homey.showView('list_devices');
+      })
+      .catch(function (err) {
+        Homey.hideLoadingOverlay();
+        Homey.alert((err && err.message) || String(err));
+      });
+  });
+</script>

@@ -1,0 +1,17 @@
+{
+  "name": "com.cummins.generator",
+  "version": "1.0.0",
+  "description": "Monitor and control Cummins home standby generators from Homey Pro",
+  "main": "app.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
+    "@types/node": "^26.1.1"
+  },
+  "scripts": {
+    "test": "node test/smoke.js",
+    "typecheck": "npx --yes -p typescript@5 tsc -p jsconfig.json",
+    "validate": "homey app validate --level verified",
+    "check": "npm run typecheck && npm test && npm run validate"
+  }
+}

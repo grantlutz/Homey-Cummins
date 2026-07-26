@@ -1,0 +1,17 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Standby enabled"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Standby enabled"
+  },
+  "insightsTitleFalse": {
+    "en": "Standby disabled"
+  },
+  "icon": "/assets/capability-icons/standby_enabled.svg"
+}

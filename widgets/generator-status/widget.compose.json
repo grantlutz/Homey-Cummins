@@ -1,0 +1,21 @@
+{
+  "name": {
+    "en": "Generator status"
+  },
+  "settings": [
+    {
+      "id": "device",
+      "type": "autocomplete",
+      "title": {
+        "en": "Generator"
+      }
+    }
+  ],
+  "height": 100,
+  "api": {
+    "getStatus": {
+      "method": "GET",
+      "path": "/status"
+    }
+  }
+}

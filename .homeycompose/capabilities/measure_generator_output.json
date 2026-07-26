@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Power output"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "chartType": "stepLine",
+  "icon": "/assets/capability-icons/measure_generator_output.svg"
+}

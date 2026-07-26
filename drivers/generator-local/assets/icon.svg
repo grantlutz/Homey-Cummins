@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960">
+  <!-- Generator enclosure -->
+  <path fill-rule="evenodd" d="M180 240 h600 a60 60 0 0 1 60 60 v300 a60 60 0 0 1 -60 60 H180 a60 60 0 0 1 -60 -60 V300 a60 60 0 0 1 60 -60 Z M210 300 a30 30 0 0 0 -30 30 v240 a30 30 0 0 0 30 30 h540 a30 30 0 0 0 30 -30 V330 a30 30 0 0 0 -30 -30 Z"/>
+  <!-- Lightning bolt -->
+  <path d="M520 320 L405 465 h70 L440 580 L560 425 h-75 Z"/>
+  <!-- Network link: generator to LAN nodes -->
+  <rect x="450" y="660" width="60" height="60"/>
+  <rect x="200" y="820" width="120" height="100" rx="20"/>
+  <rect x="420" y="820" width="120" height="100" rx="20"/>
+  <rect x="640" y="820" width="120" height="100" rx="20"/>
+  <rect x="465" y="700" width="30" height="90"/>
+  <rect x="245" y="760" width="470" height="30"/>
+  <rect x="245" y="760" width="30" height="70"/>
+  <rect x="465" y="760" width="30" height="70"/>
+  <rect x="685" y="760" width="30" height="70"/>
+</svg>

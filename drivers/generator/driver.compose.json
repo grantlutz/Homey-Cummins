@@ -1,0 +1,174 @@
+{
+  "name": {
+    "en": "Generator (Connect Cloud)"
+  },
+  "class": "other",
+  "capabilities": [
+    "generator_status",
+    "generator_running",
+    "on_generator_power",
+    "utility_power",
+    "generator_exercising",
+    "alarm_fault",
+    "alarm_data_stale",
+    "alarm_exercise_overdue",
+    "measure_voltage.battery",
+    "measure_generator_load",
+    "measure_generator_output",
+    "meter_generator_energy",
+    "measure_voltage.output",
+    "measure_frequency",
+    "measure_engine_speed",
+    "measure_engine_runtime",
+    "standby_enabled",
+    "last_exercise",
+    "last_checkin"
+  ],
+  "capabilitiesOptions": {
+    "measure_voltage.battery": {
+      "title": {
+        "en": "Battery voltage"
+      },
+      "decimals": 1
+    },
+    "measure_voltage.output": {
+      "title": {
+        "en": "Output voltage"
+      },
+      "decimals": 0
+    },
+    "generator_running": {
+      "titleTrue": {
+        "en": "Running"
+      },
+      "titleFalse": {
+        "en": "Stopped"
+      }
+    },
+    "on_generator_power": {
+      "titleTrue": {
+        "en": "On backup power"
+      },
+      "titleFalse": {
+        "en": "No"
+      }
+    },
+    "utility_power": {
+      "titleTrue": {
+        "en": "Available"
+      },
+      "titleFalse": {
+        "en": "Out"
+      }
+    },
+    "generator_exercising": {
+      "titleTrue": {
+        "en": "Exercising"
+      },
+      "titleFalse": {
+        "en": "Idle"
+      }
+    },
+    "alarm_fault": {
+      "titleTrue": {
+        "en": "Fault"
+      },
+      "titleFalse": {
+        "en": "OK"
+      }
+    },
+    "alarm_data_stale": {
+      "titleTrue": {
+        "en": "Stale"
+      },
+      "titleFalse": {
+        "en": "Fresh"
+      }
+    },
+    "alarm_exercise_overdue": {
+      "titleTrue": {
+        "en": "Overdue"
+      },
+      "titleFalse": {
+        "en": "OK"
+      }
+    },
+    "standby_enabled": {
+      "titleTrue": {
+        "en": "Enabled"
+      },
+      "titleFalse": {
+        "en": "Disabled"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "images": {
+    "small": "/drivers/generator/assets/images/small.png",
+    "large": "/drivers/generator/assets/images/large.png",
+    "xlarge": "/drivers/generator/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "login_credentials",
+      "template": "login_credentials",
+      "options": {
+        "title": {
+          "en": "Sign in to Cummins Connect Cloud"
+        },
+        "usernameLabel": {
+          "en": "E-mail address"
+        },
+        "usernamePlaceholder": {
+          "en": "you@example.com"
+        },
+        "passwordLabel": {
+          "en": "Password (or paste a refresh token)"
+        },
+        "passwordPlaceholder": {
+          "en": "Password"
+        }
+      }
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices",
+        "prev": "login_credentials"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "repair": [
+    {
+      "id": "login_credentials",
+      "template": "login_credentials",
+      "options": {
+        "title": {
+          "en": "Sign in again to Cummins Connect Cloud"
+        },
+        "usernameLabel": {
+          "en": "E-mail address"
+        },
+        "usernamePlaceholder": {
+          "en": "you@example.com"
+        },
+        "passwordLabel": {
+          "en": "Password (or paste a refresh token)"
+        },
+        "passwordPlaceholder": {
+          "en": "Password"
+        }
+      }
+    }
+  ]
+}

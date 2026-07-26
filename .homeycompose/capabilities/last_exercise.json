@@ -1,0 +1,10 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Last exercise"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/capability-icons/last_exercise.svg"
+}
