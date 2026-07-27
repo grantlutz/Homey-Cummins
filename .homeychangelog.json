@@ -1,5 +1,8 @@
 {
   "1.0.0": {
     "en": "First release. Monitor Cummins home standby generators from Homey — via Cummins Connect Cloud, or locally over your LAN for older RS-series models with the web-interface card. Start, stop and exercise the generator from the device tile or a Flow, with alarms for faults, missed self-tests and a generator that has stopped checking in. Includes Insights on every value, a dashboard widget, and estimated power output and energy produced. Unofficial community app, not affiliated with Cummins Inc."
+  },
+  "1.0.1": {
+    "en": "First App Store submission."
   }
 }

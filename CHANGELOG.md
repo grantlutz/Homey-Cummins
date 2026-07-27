@@ -12,9 +12,13 @@ alongside it for every released version.
 
 Nothing yet.
 
-## [1.0.0] — unreleased, prepared 2026-07-27
+## [1.0.1] — 2026-07-27
 
-First release. Not yet submitted to the Homey App Store.
+First release, submitted to the Homey App Store and pending certification.
+
+Published as 1.0.1 rather than 1.0.0: `homey app publish` requires a version
+bump at submission, so 1.0.0 was consumed by the publish flow and never
+shipped as a distinct release.
 
 ### Added
 
@@ -114,4 +118,4 @@ Details and reproduction notes in `docs/REVIEW-LOG.md`.
   reproducing their notices is an obligation, not a courtesy.
 
 [Unreleased]: https://github.com/grantlutz/Homey-Cummins/compare/main...HEAD
-[1.0.0]: https://github.com/grantlutz/Homey-Cummins
+[1.0.1]: https://github.com/grantlutz/Homey-Cummins/releases/tag/v1.0.1
