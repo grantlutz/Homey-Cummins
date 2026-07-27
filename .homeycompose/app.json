@@ -51,9 +51,14 @@
       "path": "/probe-commands"
     }
   },
-  "support": "mailto:grant.lutz@gmail.com",
+  "support": "https://community.homey.app/t/cummins-cloud-connect-unofficial/157618",
   "author": {
     "name": "Grant Lutz",
     "email": "grant.lutz@gmail.com"
+  },
+  "homeyCommunityTopicId": 157618,
+  "source": "https://github.com/grantlutz/Homey-Cummins",
+  "bugs": {
+    "url": "https://github.com/grantlutz/Homey-Cummins/issues"
   }
 }
