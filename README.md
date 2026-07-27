@@ -16,7 +16,7 @@ endorsed by, or supported by Cummins Inc. Use at your own risk.
 
 | Driver | For | Data source | Control |
 |---|---|---|---|
-| **Generator (Connect Cloud)** | QuietConnect / anything in the ConnectCloud app | Cummins cloud API | Experimental only |
+| **Generator (Connect Cloud)** | QuietConnect / anything in the ConnectCloud app | Cummins cloud API | Start/stop, exercise, fault reset |
 | **Generator (Local, RS-series)** | Older RS models with the web-interface card | Your LAN, no internet | Full (confirmed protocol) |
 
 You can pair both, and multiple generators of each.
@@ -62,11 +62,13 @@ All of these need the generator's switch in **REMOTE**; that physical
 interlock is the safety net.
 
 On the **Connect Cloud driver** the on/off switch is hidden by default,
-because the cloud command format is unconfirmed and a dead switch is worse
-than no switch. Turn on *Enable experimental start/stop commands* in the
+because it starts a real engine. Turn on *Enable remote start/stop* in the
 device settings and the toggle appears; turn it off and it disappears again.
-Cloud generators have no confirmed way to set the exercise schedule, so that
-control is local-only.
+The Exercise button and the fault-reset card are always available — an
+exercise is the same self-test the generator runs weekly on its own.
+
+Setting the exercise *schedule* is local-only: that command exists in the
+cloud API but takes arguments whose format is still unknown.
 
 ---
 
@@ -154,7 +156,7 @@ stop, exercise and standby commands.
 | Exercise overdue after | 8 d | Raises the overdue alarm when no self-test completed. 8 d catches a missed weekly exercise. |
 | Generator rated output | 0 (off) | Your nameplate kW. Set it to get power-output and energy-produced values. |
 | Timeline notifications | on | Post utility-lost / on-generator / fault to the Homey timeline. |
-| Experimental remote commands | off | Cloud driver only — see the warning below. |
+| Enable remote start/stop | off | Cloud driver only — adds the on/off switch. Starts a real engine. |
 | Auto-sync generator clock | off | Local driver only. Corrects the generator's clock when it drifts. |
 
 The settings panel also shows read-only diagnostics: firmware, site,
@@ -199,11 +201,10 @@ water heater.
 
 - **Disabling standby means the generator will not start by itself during an
   outage.** Flows run without confirmation — be deliberate with that card.
-- **Cloud start/stop is experimental.** The cloud command format has never
-  been publicly confirmed, so those two cards send a best-effort request that
-  may simply fail. They are disabled until you opt in per device, and are
-  additionally gated on the generator reporting remote control as enabled.
-  Local start/stop uses the confirmed protocol and is not experimental.
+- **Cloud start/stop is off by default and gated behind a device setting.**
+  Not because it might not work — it is confirmed working — but because it
+  starts a real engine. It additionally requires the generator to report
+  remote control as enabled.
 - Remote-starting a generator runs a real engine. Make sure nobody is
   servicing it.
 

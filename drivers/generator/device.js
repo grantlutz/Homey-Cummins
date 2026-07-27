@@ -125,10 +125,9 @@ class GeneratorDevice extends Homey.Device {
    * Add or remove the on/off tile control to match the `commands_enabled`
    * setting.
    *
-   * The cloud command payload has never been publicly confirmed, so a
-   * start/stop toggle may simply not work. Rather than putting a
-   * possibly-dead switch on every user's device tile, it only exists once
-   * the user has explicitly opted into experimental commands.
+   * Start/stop is confirmed working, but it turns a real engine, so the
+   * switch only exists once the user has explicitly opted in. Exercise and
+   * fault-reset are always available and need no opt-in.
    */
   async _syncCommandCapability() {
     const wanted = this.getSetting('commands_enabled') === true;
@@ -237,7 +236,7 @@ class GeneratorDevice extends Homey.Device {
       onTrue: () => trig.exercise_became_overdue.trigger(this),
     });
     await this._setCapability('standby_enabled', t.isStandbyEnabled != null ? Boolean(t.isStandbyEnabled) : null);
-    // Only present when experimental commands are enabled; keep it in step
+    // Only present when remote start/stop is enabled; keep it in step
     // with reality so the toggle isn't lying after an auto-start.
     if (running != null) await this._setCapability('onoff', running);
 
@@ -404,7 +403,7 @@ class GeneratorDevice extends Homey.Device {
       }
       throw err;
     }
-    this.log(`Sent ${commandName} (experimental)`);
+    this.log(`Sent ${commandName}`);
     // Re-poll shortly to reflect the (possible) state change
     this.homey.setTimeout(() => this.poll().catch(this.error), 15 * 1000);
   }

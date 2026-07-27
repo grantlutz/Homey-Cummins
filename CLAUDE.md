@@ -44,7 +44,13 @@ device settings labels.
 - The username/password login (`lib/AuraAuth.js`) may be blocked by
   Salesforce TLS fingerprinting (blocks Python; Node untested). Pairing
   accepts a pasted refresh token in the password field (>100 chars = token).
-- Cloud start/stop POST shape is UNCONFIRMED — keep it triple-gated.
+- Cloud commands go to `POST /Assets/SendCommand?id=<assetId>` with body
+  `{DestinationId, CommandString, Properties: []}` — discovered here, not
+  known upstream, and confirmed driving real hardware. `Properties` shapes
+  for SetStandby/SetExerciseSchedule are still unknown; do NOT probe for
+  them, a schema-valid payload executes rather than erroring.
+- The `*_experimental` flow-card IDs are kept only because renaming a card
+  ID breaks any Flow already using it. Their titles no longer say that.
 - The generator's local clock is naive wall-time; all drift math must
   compare against `_homeyLocalNow()` (same frame), never `Date.now()`.
 - Power/energy are ESTIMATES from load% × the user's `rated_kw` setting

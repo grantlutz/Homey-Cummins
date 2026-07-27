@@ -104,10 +104,11 @@ All numeric + boolean capabilities get **Insights** (`"insights": true`).
 
 **Actions:**
 `refresh_now` (immediate poll),
-`start_generator` / `stop_generator` — **experimental**: POST shape is
-unconfirmed upstream; gated behind an opt-in device setting AND
-`isRemoteEnabled` AND the command's `IsEnabled` flag from `/Assets/Commands`.
-Clearly labeled experimental in the card title.
+`start_generator` / `stop_generator` — endpoint solved during development
+(`POST /Assets/SendCommand?id=`, see HA-INTEGRATIONS.md) and confirmed on
+real hardware. Gated behind an opt-in device setting AND `isRemoteEnabled`
+AND the command's `IsEnabled` flag, because it turns a real engine.
+`StartExercise` / `StopExercise` / `FaultReset` are ungated.
 
 ## 4. Pairing
 
@@ -124,7 +125,7 @@ Clearly labeled experimental in the card title.
 - Poll interval (minutes, default 2)
 - Stale-data threshold (hours, default 25)
 - Exercise-overdue threshold (days, default 8)
-- Enable experimental remote commands (boolean, default off, with warning)
+- Enable remote start/stop (boolean, default off, with warning)
 - Read-only info: site, asset id, firmware, standby/remote flags, raw
   `gensetStatus`/`loadStatus`/`powerSource` codes (undecoded upstream).
 

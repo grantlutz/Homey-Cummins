@@ -347,7 +347,8 @@ Cloud-side (Connect Cloud / QuietConnect generators):
 | Exercise-overdue alarm (8 d) | ❌ | ✅ | ✅ (configurable) |
 | Event/fault history | ❌ (endpoint wrapped, unused) | partially (scrape) | ✅ (event-based flow triggers) |
 | Multi-generator support | ✅ | ❌ | ✅ |
-| Start/Stop commands | ❌ (phase 2, POST shape unknown) | ❌ | ⚠️ experimental, gated (see PLAN.md) |
+| Start/Stop commands | ❌ (phase 2, POST shape unknown) | ❌ | ✅ **endpoint solved here**, confirmed on hardware |
+| Exercise / fault-reset commands | ❌ | ❌ | ✅ (new — from the discovered enum) |
 | Automations | via HA generic | via HA generic | ✅ first-class Flow cards |
 
 Local-side (older RS-series generators with the Ethernet web card):

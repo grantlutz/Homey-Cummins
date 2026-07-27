@@ -73,12 +73,12 @@
   </details>
 
   <details id="probe-section">
-    <summary>Find the cloud start/stop endpoint (advanced)</summary>
+    <summary>Command diagnostics (advanced)</summary>
     <p>
-      Cummins' cloud command format has never been publicly documented, and
-      the path this app tries first returns <code>404 not found</code>. This
-      tool asks the API which commands it advertises and then tests candidate
-      endpoints to find the one that exists.
+      This tool asks the API which commands your generator advertises and
+      verifies the command endpoint. The endpoint itself is already solved
+      (<code>POST /Assets/SendCommand?id=</code>) — this is here for
+      diagnosing a generator whose commands behave unexpectedly.
     </p>
     <p>
       <strong>Nothing is started or stopped.</strong> Every test uses a
@@ -94,8 +94,8 @@
     <button class="homey-button-primary-full" id="probe-run">Run endpoint test</button>
     <pre id="probe-output" style="display:none;white-space:pre-wrap;word-break:break-word;font-size:12px;background:rgba(127,127,127,0.1);padding:10px;border-radius:8px;margin-top:10px;overflow-x:auto;"></pre>
     <p class="hint" style="font-size:13px;opacity:0.75;">
-      Please paste the result into a GitHub issue — it's what's needed to make
-      cloud start/stop work for everyone.
+      If a command misbehaves on your generator, the output here is worth
+      attaching to a GitHub issue.
     </p>
   </details>
 
@@ -108,10 +108,11 @@
       <strong>REMOTE</strong> or commands are ignored.
     </p>
     <p>
-      <strong>Connect Cloud generators:</strong> the cloud command format has
-      never been publicly confirmed, so those Flow cards are experimental and
-      disabled by default. Enable them per device under
-      <em>Device → Settings → Remote commands</em> if you want to try them.
+      <strong>Connect Cloud generators:</strong> start, stop, exercise and
+      fault reset are confirmed working. Start/stop is still disabled by
+      default because it turns a real engine — enable it per device under
+      <em>Device → Settings → Remote start / stop</em>. Running an exercise
+      and clearing a fault need no opt-in.
     </p>
     <p>
       Disabling standby means the generator will <strong>not</strong> start

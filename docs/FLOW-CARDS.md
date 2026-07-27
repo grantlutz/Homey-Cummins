@@ -38,7 +38,9 @@ enabled · battery voltage above [V] · load above [%] — all invertible.
 | Card | Notes |
 |---|---|
 | Refresh generator data | Immediate poll; bypasses failure backoff |
-| Start/Stop the generator (EXPERIMENTAL) | Best-effort `/Assets/{id}/command/StartGenset|StopGenset` POST — the payload was never publicly captured. Triple-gated: the `commands_enabled` device setting AND `isRemoteEnabled` telemetry AND the command's `IsEnabled` flag from `/Assets/Commands`. |
+| Start/Stop the generator | `POST /Assets/SendCommand?id=` with `CommandString: StartGenset|StopGenset`. Confirmed working. Gated on the `commands_enabled` device setting AND `isRemoteEnabled` telemetry AND the command's `IsEnabled` flag — because it starts a real engine, not because it is unreliable. |
+| Run an exercise now / Stop the exercise | `StartExercise` / `StopExercise`. Not gated. |
+| Clear the active fault | `FaultReset`. Clears the indication only. |
 
 ## Generator (Local, RS-series) driver
 
@@ -91,8 +93,9 @@ one-off operations don't require building a Flow:
   minute, written to the generator on save and read back from it otherwise
 - **Device → Settings → Maintenance** → sync the generator clock
 
-The cloud driver's on/off switch only appears once *Enable experimental
-start/stop commands* is turned on in its device settings.
+The cloud driver also has an Exercise button on its tile. Its on/off
+switch appears once *Enable remote start/stop* is turned on in its device
+settings.
 
 ## Starter flow recipes
 
