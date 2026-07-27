@@ -3,6 +3,28 @@
 Homey SDK v3 app, plain JavaScript, **zero runtime npm dependencies** (all
 HTTP via `lib/http.js` on Node built-ins — keep it that way).
 
+## Changelog — maintain this on every change
+
+**`CHANGELOG.md` is kept up to date as part of the work, not afterwards.**
+Every user-visible change, bug fix, or protocol finding gets an entry in the
+same commit that makes the change. Do not wait to be asked, and do not batch
+it up for later.
+
+- Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) —
+  `Added` / `Changed` / `Fixed` / `Removed` / `Deprecated` / `Security`
+  under an `## [Unreleased]` heading, promoted to a version heading on
+  release.
+- Write entries for the person running the app, not the person who wrote the
+  diff: say what now behaves differently and why it matters. Internal
+  refactors with no observable effect don't need an entry.
+- On release, also update **`.homeychangelog.json`** — that is the short
+  user-facing text shown in the Homey App Store, keyed by version, and it
+  must exist for the version being published. The two files serve different
+  readers: `CHANGELOG.md` is the full developer history, the JSON is a
+  paragraph a store visitor reads.
+- Bump the version with `homey app version <patch|minor|major>`, then move
+  `[Unreleased]` to that version with today's date.
+
 ## Editing rules
 
 - **`npm run check` must pass** — it chains type check, tests, and

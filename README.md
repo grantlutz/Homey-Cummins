@@ -249,6 +249,10 @@ docs/           protocol research, porting plan, flow reference, review log
 test/smoke.js   offline tests
 ```
 
+Changes are recorded in [`CHANGELOG.md`](CHANGELOG.md) as they are made;
+[`.homeychangelog.json`](.homeychangelog.json) holds the shorter text the
+Homey App Store shows per version.
+
 ```bash
 npm run check       # typecheck + tests + verified-level validation
 npm test            # offline tests, no Homey required
