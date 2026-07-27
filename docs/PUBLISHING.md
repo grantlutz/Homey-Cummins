@@ -29,6 +29,24 @@ blessing, and Athom's review is human. The description and README state
 plainly that the app is unofficial and depends on interfaces Cummins may
 change, which is the honest framing to submit under.
 
+## Manual IP entry — addressed
+
+Athom reviewers have rejected apps for requiring a hand-typed IP:
+
+> It seems that users need to manually enter their IP address in your app.
+> This is no longer allowed. Please use the `ManagerDiscovery`.
+
+RS-series generators advertise no mDNS or SSDP service, so there is nothing
+for `ManagerDiscovery` to subscribe to. The local driver therefore leads with
+an active sweep of Homey's own /24 (`CumminsLocalApi.discover`), matching the
+web-interface card's distinctive `index_data.html` fingerprint. A full sweep
+of an empty subnet completes in ~17 s. Manual entry survives only as a
+collapsed fallback, for generators on another subnet.
+
+If a reviewer still objects, the justification is: the hardware predates
+service discovery entirely, and the app does discover automatically — just
+not via a protocol the device doesn't speak.
+
 ## Residual risks
 
 1. **Illustrated images, not photographs.** The rule only forbids "a single
@@ -44,6 +62,14 @@ change, which is the honest framing to submit under.
 3. **Equipment control.** The guidelines say nothing about safety-relevant
    control. Start/stop is opt-in per device, and local control additionally
    requires the generator's own switch to be in REMOTE.
+4. **Don't add `"cloud"` to `platforms`.** Athom's Homey Cloud rule is
+   "Only official app integrations will be approved" — an unofficial app has
+   been rejected on exactly that basis and only shipped after dropping Cloud.
+   `["local"]` is the approvable configuration.
+5. **Don't linger in Test.** The guidelines prefer one app per brand, and a
+   developer has been rejected because a competing app for the same brand
+   appeared while they sat in Test. No Cummins app exists today; that is a
+   reason to publish rather than sit on it.
 
 ## Before submitting
 

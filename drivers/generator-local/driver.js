@@ -66,6 +66,30 @@ class GeneratorLocalDriver extends Homey.Driver {
 
   async onPair(session) {
     let connection = null;
+    /** @type {Array<{host: string, status: any}>} */
+    let discovered = [];
+
+    // Automatic discovery. These generators advertise no mDNS/SSDP service,
+    // so this sweeps Homey's own /24 looking for the web-interface card's
+    // distinctive index_data.html response. Manual entry stays available for
+    // generators on a different subnet or a non-default port.
+    session.setHandler('discover', async data => {
+      const username = (data && data.username) || 'admin';
+      const password = (data && data.password) || 'cummins';
+      let localAddress;
+      try {
+        localAddress = await this.homey.cloud.getLocalAddress();
+      } catch (err) {
+        throw new Error(`Could not determine Homey's network address: ${err.message}`);
+      }
+      discovered = await CumminsLocalApi.discover(localAddress, username, password);
+      return discovered.map(d => ({
+        host: d.host,
+        name: `Cummins Generator (${d.host})`,
+        status: d.status.status,
+        battery: d.status.batteryVoltage,
+      }));
+    });
 
     session.setHandler('connect', async data => {
       const api = new CumminsLocalApi(data.host, data.username, data.password);

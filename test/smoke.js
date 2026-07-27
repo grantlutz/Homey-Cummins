@@ -257,6 +257,37 @@ async function testTruncatedCompressedResponse() {
   console.log('ok truncated responses reject (no hang)');
 }
 
+/**
+ * Discovery has to tell a generator apart from anything else answering on
+ * port 80 — these units advertise no mDNS/SSDP, so the index_data.html
+ * fingerprint is the only signal there is.
+ */
+async function testDiscoveryFingerprint() {
+  await withServer((req, res) => {
+    if (req.url.startsWith('/index_data.html')) {
+      res.writeHead(200, { 'content-type': 'text/html' });
+      res.end(INDEX_DATA_FIXTURE);
+    } else {
+      res.writeHead(404);
+      res.end();
+    }
+  }, async host => {
+    const api = new CumminsLocalApi(host, 'admin', 'cummins', { timeout: 1500 });
+    const s = await api.getStatus();
+    assert.strictEqual(s.status, 'Running');
+  });
+
+  // Anything else on port 80 must NOT be mistaken for a generator
+  await withServer((req, res) => {
+    res.writeHead(200, { 'content-type': 'text/html' });
+    res.end('<html><body>NAS login</body></html>');
+  }, async host => {
+    const api = new CumminsLocalApi(host, 'admin', 'cummins', { timeout: 1500 });
+    await assert.rejects(() => api.getStatus(), /Unexpected index_data/);
+  });
+  console.log('ok discovery fingerprint accepts generators, rejects decoys');
+}
+
 (async () => {
   await testCookieJar();
   await testSessionRedirects();
@@ -264,6 +295,7 @@ async function testTruncatedCompressedResponse() {
   await testTelemetryFlattening();
   await testLocalStatusParsing();
   await testEnergyEstimator();
+  await testDiscoveryFingerprint();
   console.log('\nAll smoke tests passed');
 })().catch(err => {
   console.error('FAILED:', err);

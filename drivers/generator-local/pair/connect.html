@@ -1,70 +1,150 @@
 <style>
-  .cummins-pair {
-    padding: 0 1em;
-  }
-  .cummins-pair .homey-form-group {
-    margin-bottom: 1em;
-  }
+  .cummins-pair { padding: 0 1em; }
+  .cummins-pair .homey-form-group { margin-bottom: 1em; }
   .cummins-pair .hint {
     font-size: 0.85em;
     opacity: 0.7;
-    margin-top: 1.5em;
+    margin-top: 1.2em;
     line-height: 1.4;
   }
+  .found {
+    border: 1px solid var(--homey-border-color, #e3e3e3);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .found:hover { border-color: #4a90d9; }
+  .found .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #4ade80; flex-shrink: 0;
+  }
+  .found .who { flex: 1; min-width: 0; }
+  .found .ip { font-weight: 600; }
+  .found .meta { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+  #scan-status { font-size: 0.9em; opacity: 0.8; margin: 0.6em 0; }
+  details { margin-top: 1.2em; }
+  summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
 </style>
 
 <div class="cummins-pair">
   <header class="homey-header">
-    <h1 class="homey-title">Connect to your generator</h1>
-    <p class="homey-subtitle">Enter the address of the generator's local web interface.</p>
+    <h1 class="homey-title">Find your generator</h1>
+    <p class="homey-subtitle">For older RS-series models with the Ethernet web-interface card.</p>
   </header>
 
-  <form id="connect-form">
-    <div class="homey-form-group">
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="username">Username</label>
+    <input class="homey-form-input" id="username" type="text" value="admin" autocomplete="off" />
+  </div>
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="password">Password</label>
+    <input class="homey-form-input" id="password" type="password" value="cummins" />
+  </div>
+
+  <button class="homey-button-primary-full" id="scan">Search my network</button>
+  <p id="scan-status"></p>
+  <div id="results"></div>
+
+  <details id="manual-block">
+    <summary>Enter the address manually</summary>
+    <div class="homey-form-group" style="margin-top: 0.8em;">
       <label class="homey-form-label" for="host">IP address / hostname</label>
       <input class="homey-form-input" id="host" type="text" placeholder="192.168.1.50" autocomplete="off" />
     </div>
-    <div class="homey-form-group">
-      <label class="homey-form-label" for="username">Username</label>
-      <input class="homey-form-input" id="username" type="text" value="admin" autocomplete="off" />
-    </div>
-    <div class="homey-form-group">
-      <label class="homey-form-label" for="password">Password</label>
-      <input class="homey-form-input" id="password" type="password" value="cummins" />
-    </div>
-    <button class="homey-button-primary-full" id="connect-button" type="submit">Connect</button>
-  </form>
+    <button class="homey-button-primary-full" id="connect">Connect</button>
+    <p class="hint">
+      Use this if your generator is on a different subnet from Homey, or if
+      the search can't reach it.
+    </p>
+  </details>
 
   <p class="hint">
-    Works with older RS-series Cummins generators that have the Ethernet
-    web-interface card (the same interface you can open in a browser —
-    default login admin / cummins). For remote start/stop from Homey, the
-    switch on the generator must be set to REMOTE.
+    Uses the same login as the generator's own web page — the factory default
+    is admin / cummins. For remote start and stop from Homey, the switch on
+    the generator must be set to REMOTE.
   </p>
 </div>
 
 <script type="text/javascript">
   Homey.setTitle('Local generator');
 
-  document.getElementById('connect-form').addEventListener('submit', function onSubmit(event) {
-    event.preventDefault();
-    var host = document.getElementById('host').value.trim();
-    var username = document.getElementById('username').value.trim() || 'admin';
-    var password = document.getElementById('password').value;
+  function creds() {
+    return {
+      username: document.getElementById('username').value.trim() || 'admin',
+      password: document.getElementById('password').value,
+    };
+  }
 
-    if (!host) {
-      Homey.alert('Please enter the generator\'s IP address or hostname.');
-      return;
-    }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
 
+  function connectTo(host) {
+    var c = creds();
+    c.host = host;
     Homey.showLoadingOverlay();
-    Homey.emit('connect', { host: host, username: username, password: password })
-      .then(function () {
-        Homey.showView('list_devices');
-      })
+    Homey.emit('connect', c)
+      .then(function () { Homey.showView('list_devices'); })
       .catch(function (err) {
         Homey.hideLoadingOverlay();
         Homey.alert((err && err.message) || String(err));
       });
+  }
+
+  document.getElementById('scan').addEventListener('click', function () {
+    var button = document.getElementById('scan');
+    var status = document.getElementById('scan-status');
+    var results = document.getElementById('results');
+    button.disabled = true;
+    results.innerHTML = '';
+    status.textContent = 'Searching your network… this takes about half a minute.';
+
+    Homey.emit('discover', creds())
+      .then(function (found) {
+        button.disabled = false;
+        if (!found || !found.length) {
+          status.textContent = 'No generators found. Check the username and password, '
+            + 'or enter the address manually below.';
+          document.getElementById('manual-block').open = true;
+          return;
+        }
+        status.textContent = found.length === 1
+          ? 'Found 1 generator — tap it to continue.'
+          : 'Found ' + found.length + ' generators — tap one to continue.';
+        results.innerHTML = found.map(function (f) {
+          var meta = [];
+          if (f.status) meta.push(esc(f.status));
+          if (typeof f.battery === 'number') meta.push('Battery ' + f.battery.toFixed(1) + ' V');
+          return '<div class="found" data-host="' + esc(f.host) + '">'
+            + '<span class="dot"></span><span class="who">'
+            + '<div class="ip">' + esc(f.host) + '</div>'
+            + '<div class="meta">' + meta.join(' · ') + '</div>'
+            + '</span></div>';
+        }).join('');
+        Array.prototype.forEach.call(results.querySelectorAll('.found'), function (el) {
+          el.addEventListener('click', function () { connectTo(el.getAttribute('data-host')); });
+        });
+      })
+      .catch(function (err) {
+        button.disabled = false;
+        status.textContent = '';
+        Homey.alert((err && err.message) || String(err));
+        document.getElementById('manual-block').open = true;
+      });
+  });
+
+  document.getElementById('connect').addEventListener('click', function () {
+    var host = document.getElementById('host').value.trim();
+    if (!host) {
+      Homey.alert('Please enter the generator\'s IP address or hostname.');
+      return;
+    }
+    connectTo(host);
   });
 </script>
