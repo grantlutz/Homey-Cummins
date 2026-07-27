@@ -1,5 +1,5 @@
 {
-  "name": "com.cummins.generator",
+  "name": "io.github.grantlutz.cummins",
   "version": "1.0.0",
   "description": "Monitor and control Cummins home standby generators from Homey Pro",
   "main": "app.js",

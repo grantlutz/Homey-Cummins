@@ -1,12 +1,21 @@
-# Cummins Generator for Homey Pro
+# Cummins Generator (Unofficial) — Homey Pro app
+
+> **This is an unofficial community app.** It is not affiliated with,
+> endorsed by, or supported by Cummins Inc. "Cummins" and "QuietConnect" are
+> trademarks of their respective owners and are used here only to describe
+> the equipment this app works with. Do not contact Cummins for support with
+> it. Use at your own risk.
 
 Monitor — and on older models, control — your **Cummins home standby
 generator** from Homey Pro, with full Flow, Insights, dashboard-widget and
 notification support.
 
-Unofficial community app, reverse-engineered from the Cummins ConnectCloud
-mobile app and the RS-series local web interface. Not affiliated with,
-endorsed by, or supported by Cummins Inc. Use at your own risk.
+It works by talking to interfaces Cummins does not publish: the ConnectCloud
+mobile API and the RS-series local web interface, both reverse-engineered by
+the Home Assistant community and by this project. Cummins can change or
+withdraw either at any time, which would break the app until it is updated.
+
+App id: `io.github.grantlutz.cummins`
 
 > **Which driver do I need?** If you monitor your generator with the
 > **Cummins ConnectCloud phone app**, use the *Connect Cloud* driver. If your
