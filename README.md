@@ -274,20 +274,28 @@ rejects flat icon artwork — and change the app `id` in
 
 ## Credits
 
-This app stands entirely on prior reverse-engineering work by the Home
-Assistant community:
+This app stands on prior reverse-engineering work by the Home Assistant
+community. Licence texts and a precise statement of what was ported versus
+reimplemented are in
+[`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
 
-- **[tebrown/cummins_hacs](https://github.com/tebrown/cummins_hacs)** — the
-  Connect Cloud API and browserless SSO login chain this port is built on.
+- **[tebrown/cummins_hacs](https://github.com/tebrown/cummins_hacs)** (MIT,
+  © 2026 Travis Brown) — the Connect Cloud API and browserless SSO login
+  chain. `lib/CumminsApi.js` and `lib/AuraAuth.js` are direct ports of that
+  project's `api.py` and `aura_auth.py`.
 - **[wareed1/Cummins-Generator-to-Home-Assistant](https://github.com/wareed1/Cummins-Generator-to-Home-Assistant)**
-  — exercise tracking and data-freshness alarm concepts.
+  (MIT, © 2026 Wayne A. Reed) — the exercise-tracking and data-freshness
+  alarm ideas (adopted as concepts; no code ported).
 - **[mdedonato/cummins_generator](https://github.com/mdedonato/cummins_generator)**
-  and **[mswilson/cummins-hass-integration](https://github.com/mswilson/cummins-hass-integration)**
-  — the decoded RS-series local protocol: status codes, LCD bit flags, and
-  the `wr_logical.cgi` control writes.
+  (no licence declared — no code used) and
+  **[mswilson/cummins-hass-integration](https://github.com/mswilson/cummins-hass-integration)**
+  (Apache 2.0) — first published the decoded RS-series local protocol:
+  status codes, LCD bit flags, and the `wr_logical.cgi` control writes.
+  Reimplemented here, not copied.
 - The [Home Assistant community thread](https://community.home-assistant.io/t/cummins-cloud-connect-generators/398442)
   that worked out the auth stack over several years.
 
 ## License
 
-MIT
+MIT — see [`LICENSE`](LICENSE). Third-party notices for the work this app
+derives from are in [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
