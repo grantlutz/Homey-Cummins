@@ -1,19 +1,3 @@
-Keep an eye on the machine that keeps your lights on.
+Your standby generator is the one appliance you hope never runs, which is exactly why you want to know it is healthy long before the night it matters. This app brings it into Homey with live status, Insights history and alarms for the things that quietly go wrong: a fault, a missed weekly self-test, a starter battery slowly going flat, or a generator that has stopped checking in altogether. Newer models connect through Cummins Connect Cloud, while older RS-series units with the Ethernet card are read directly over your own network, with no cloud account involved.
 
-This app connects your Cummins home standby generator to Homey — both newer QuietConnect models (via Cummins Connect Cloud) and older RS-series models with the local Ethernet web interface.
-
-MONITOR
-- Running state, utility power, and whether the house is on generator power
-- Starter battery voltage — the number that decides whether your generator starts when you need it
-- Load, output voltage, output frequency, engine speed and total engine runtime
-- Exercise (self-test) tracking with an "exercise overdue" alarm
-- Fault alarms and the generator's event history
-- Stale-data alarm when the generator stops checking in
-
-AUTOMATE
-Rich Flow cards for every state change: utility power lost or restored, generator started or stopped, faults, exercises, battery voltage thresholds, new events, and more. Get a push notification when the power goes out, flash your lights when a fault occurs, or log every exercise to a spreadsheet.
-
-CONTROL (local RS-series models)
-Start, stop, run an exercise, enable or disable standby, set the exercise schedule, and keep the generator's clock in sync — all through the confirmed local protocol.
-
-This is an unofficial community app, reverse-engineered from the Cummins Connect Cloud mobile app and the RS-series local web interface. It is not affiliated with or endorsed by Cummins Inc.
+You can start, stop and exercise the generator straight from the device tile or from a Flow, and build automations around the moments that count. The one worth setting up first tells you when utility power drops and the generator has not started, which is the failure that actually costs you a freezer full of food. Enter your generator's rated output and the app will also estimate how much power it is producing and how much energy it has made. This is a community app, not affiliated with or endorsed by Cummins Inc.

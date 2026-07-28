@@ -53,13 +53,19 @@
     {
       "id": "exercise_started",
       "title": {
-        "en": "An exercise (self-test) started"
+        "en": "An exercise started"
+      },
+      "hint": {
+        "en": "A scheduled self-test run."
       }
     },
     {
       "id": "exercise_completed",
       "title": {
-        "en": "An exercise (self-test) completed"
+        "en": "An exercise completed"
+      },
+      "hint": {
+        "en": "A scheduled self-test run has finished."
       }
     },
     {
@@ -345,10 +351,10 @@
     {
       "id": "start_exercise",
       "title": {
-        "en": "Run an exercise (self-test) now"
+        "en": "Run an exercise now"
       },
       "hint": {
-        "en": "Starts the same self-test cycle the generator runs on its schedule."
+        "en": "Starts the same self-test the generator runs on its own schedule."
       }
     },
     {

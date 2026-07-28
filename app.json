@@ -9,18 +9,16 @@
     "local"
   ],
   "name": {
-    "en": "Cummins Generator (Unofficial)"
+    "en": "Cummins Generator"
   },
   "description": {
-    "en": "Unofficial community app — not affiliated with, endorsed by, or supported by Cummins Inc. Monitor and control Cummins home standby generators: via Cummins Connect Cloud (QuietConnect) or the local web interface on older RS-series models."
+    "en": "Keep an eye on the generator that keeps your lights on."
   },
   "category": [
     "energy"
   ],
   "tags": {
     "en": [
-      "unofficial",
-      "community",
       "cummins",
       "onan",
       "generator",
@@ -159,7 +157,10 @@
       {
         "id": "exercise_started",
         "title": {
-          "en": "An exercise (self-test) started"
+          "en": "An exercise started"
+        },
+        "hint": {
+          "en": "A scheduled self-test run."
         },
         "args": [
           {
@@ -172,7 +173,10 @@
       {
         "id": "exercise_completed",
         "title": {
-          "en": "An exercise (self-test) completed"
+          "en": "An exercise completed"
+        },
+        "hint": {
+          "en": "A scheduled self-test run has finished."
         },
         "args": [
           {
@@ -482,7 +486,10 @@
       {
         "id": "local_exercise_started",
         "title": {
-          "en": "An exercise (self-test) started"
+          "en": "An exercise started"
+        },
+        "hint": {
+          "en": "A scheduled self-test run."
         },
         "args": [
           {
@@ -495,7 +502,10 @@
       {
         "id": "local_exercise_completed",
         "title": {
-          "en": "An exercise (self-test) completed"
+          "en": "An exercise completed"
+        },
+        "hint": {
+          "en": "A scheduled self-test run has finished."
         },
         "args": [
           {
@@ -665,7 +675,7 @@
           "en": "The load rose above..."
         },
         "titleFormatted": {
-          "en": "The load rose above [[percent]] % (either line)"
+          "en": "The load rose above [[percent]] %"
         },
         "args": [
           {
@@ -696,7 +706,10 @@
             },
             "example": 85
           }
-        ]
+        ],
+        "hint": {
+          "en": "Uses whichever of the two load lines is higher."
+        }
       }
     ],
     "conditions": [
@@ -1132,10 +1145,10 @@
       {
         "id": "start_exercise",
         "title": {
-          "en": "Run an exercise (self-test) now"
+          "en": "Run an exercise now"
         },
         "hint": {
-          "en": "Starts the same self-test cycle the generator runs on its schedule."
+          "en": "Starts the same self-test the generator runs on its own schedule."
         },
         "args": [
           {
@@ -1209,7 +1222,10 @@
       {
         "id": "local_exercise_now",
         "title": {
-          "en": "Run an exercise (self-test) now"
+          "en": "Run an exercise now"
+        },
+        "hint": {
+          "en": "Starts the same self-test the generator runs on its own schedule. The generator's switch must be in REMOTE."
         },
         "args": [
           {
@@ -1428,7 +1444,7 @@
   "drivers": [
     {
       "name": {
-        "en": "Generator (Connect Cloud)"
+        "en": "Connect Cloud Generator"
       },
       "class": "other",
       "capabilities": [
@@ -1530,14 +1546,17 @@
             "en": "Disabled"
           },
           "setable": false,
-          "uiComponent": "sensor"
+          "uiComponent": "sensor",
+          "title": {
+            "en": "Standby"
+          }
         },
         "button.exercise": {
           "title": {
             "en": "Exercise"
           },
           "desc": {
-            "en": "Start an exercise (self-test) cycle now."
+            "en": "Start an exercise cycle now — the same self-test the generator runs on its own schedule."
           }
         }
       },
@@ -1567,7 +1586,7 @@
               "en": "you@example.com"
             },
             "passwordLabel": {
-              "en": "Password (or paste a refresh token)"
+              "en": "Password or refresh token"
             },
             "passwordPlaceholder": {
               "en": "Password"
@@ -1602,7 +1621,7 @@
               "en": "you@example.com"
             },
             "passwordLabel": {
-              "en": "Password (or paste a refresh token)"
+              "en": "Password or refresh token"
             },
             "passwordPlaceholder": {
               "en": "Password"
@@ -1785,7 +1804,7 @@
     },
     {
       "name": {
-        "en": "Generator (Local, RS-series)"
+        "en": "Local RS-Series Generator"
       },
       "class": "other",
       "capabilities": [
@@ -1837,7 +1856,7 @@
             "en": "Exercise"
           },
           "desc": {
-            "en": "Start an exercise (self-test) cycle now. The generator's switch must be in REMOTE."
+            "en": "Start an exercise cycle now — the same self-test the generator runs on its own schedule. The generator's switch must be in REMOTE."
           }
         },
         "button.sync_clock": {
@@ -1905,7 +1924,7 @@
             "en": "Disabled"
           },
           "title": {
-            "en": "Standby (auto-start)"
+            "en": "Standby"
           }
         },
         "onoff": {

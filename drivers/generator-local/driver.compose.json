@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "Generator (Local, RS-series)"
+    "en": "Local RS-Series Generator"
   },
   "class": "other",
   "capabilities": [
@@ -52,7 +52,7 @@
         "en": "Exercise"
       },
       "desc": {
-        "en": "Start an exercise (self-test) cycle now. The generator's switch must be in REMOTE."
+        "en": "Start an exercise cycle now — the same self-test the generator runs on its own schedule. The generator's switch must be in REMOTE."
       }
     },
     "button.sync_clock": {
@@ -120,7 +120,7 @@
         "en": "Disabled"
       },
       "title": {
-        "en": "Standby (auto-start)"
+        "en": "Standby"
       }
     },
     "onoff": {

@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "Generator (Connect Cloud)"
+    "en": "Connect Cloud Generator"
   },
   "class": "other",
   "capabilities": [
@@ -102,14 +102,17 @@
         "en": "Disabled"
       },
       "setable": false,
-      "uiComponent": "sensor"
+      "uiComponent": "sensor",
+      "title": {
+        "en": "Standby"
+      }
     },
     "button.exercise": {
       "title": {
         "en": "Exercise"
       },
       "desc": {
-        "en": "Start an exercise (self-test) cycle now."
+        "en": "Start an exercise cycle now — the same self-test the generator runs on its own schedule."
       }
     }
   },
@@ -139,7 +142,7 @@
           "en": "you@example.com"
         },
         "passwordLabel": {
-          "en": "Password (or paste a refresh token)"
+          "en": "Password or refresh token"
         },
         "passwordPlaceholder": {
           "en": "Password"
@@ -174,7 +177,7 @@
           "en": "you@example.com"
         },
         "passwordLabel": {
-          "en": "Password (or paste a refresh token)"
+          "en": "Password or refresh token"
         },
         "passwordPlaceholder": {
           "en": "Password"

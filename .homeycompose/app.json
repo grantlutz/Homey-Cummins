@@ -8,18 +8,16 @@
     "local"
   ],
   "name": {
-    "en": "Cummins Generator (Unofficial)"
+    "en": "Cummins Generator"
   },
   "description": {
-    "en": "Unofficial community app — not affiliated with, endorsed by, or supported by Cummins Inc. Monitor and control Cummins home standby generators: via Cummins Connect Cloud (QuietConnect) or the local web interface on older RS-series models."
+    "en": "Keep an eye on the generator that keeps your lights on."
   },
   "category": [
     "energy"
   ],
   "tags": {
     "en": [
-      "unofficial",
-      "community",
       "cummins",
       "onan",
       "generator",

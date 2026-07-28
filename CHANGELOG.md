@@ -10,7 +10,32 @@ alongside it for every released version.
 
 ## [Unreleased]
 
-Nothing yet.
+### Changed
+
+App Store certification feedback (submission 1 was rejected):
+
+- Renamed from "Cummins Generator (Unofficial)" to **Cummins Generator**.
+  Parentheses aren't allowed in app names, and the store's developer badge
+  already distinguishes community apps from verified ones, so the
+  "Unofficial" label was redundant. The app is still not affiliated with
+  Cummins Inc., and says so in the readme.
+- Drivers renamed to **Connect Cloud Generator** and **Local RS-Series
+  Generator** — same reason.
+- The store description is now a one-line tagline instead of a feature
+  rundown, and the store readme is two plain paragraphs instead of all-caps
+  headings and bullets.
+- Parentheses removed from every Flow card title, not only the two flagged.
+  Detail they carried moved into each card's hint text: "An exercise
+  started", "Run an exercise now", and "The load rose above X %" now explain
+  themselves in the hint rather than the title.
+- Widget previews redrawn as simple shapes with no text, as previews require.
+- The Connect Cloud driver icon is now cloud-led, so it reads as distinct
+  from the app icon rather than a near-duplicate.
+
+### Still outstanding
+
+- App and driver images must be photographs rather than illustrations. See
+  `docs/PUBLISHING.md`.
 
 ## [1.0.1] — 2026-07-27
 
