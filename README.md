@@ -1,4 +1,4 @@
-# Cummins Generator (Unofficial) — Homey Pro app
+# Cummins Generator — Homey Pro app
 
 > **This is an unofficial community app.** It is not affiliated with,
 > endorsed by, or supported by Cummins Inc. "Cummins" and "QuietConnect" are
