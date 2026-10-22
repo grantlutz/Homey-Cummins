@@ -8,7 +8,7 @@ and 157618 is already baked into the app manifest as
 **Subject:**
 
 ```
-[APP][Pro] Cummins Generator (Unofficial)
+[APP][Pro] Cummins Generator
 ```
 
 `[APP][Pro]` is the Homey convention for a Pro-only app topic, and the name
@@ -19,7 +19,7 @@ thing.
 
 ## Post body (paste from here down)
 
-# Cummins Generator (Unofficial)
+# Cummins Generator
 
 Your standby generator is the one appliance in the house you *hope* never
 runs — which is exactly why you want to know it's healthy before the night it

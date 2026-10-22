@@ -7,7 +7,7 @@ Checked against Athom's App Store Guidelines
 
 | Guideline | Requirement | Status |
 |---|---|---|
-| Brand naming | "In case your app supports a specific brand, use the brand name for your app." | ✅ "Cummins Generator (Unofficial)" |
+| Brand naming | "In case your app supports a specific brand, use the brand name for your app." | ✅ "Cummins Generator" |
 | Name length | Names over four words not permitted | ✅ 3 words |
 | Reserved words | May not use "Homey" or "Athom" in the name | ✅ |
 | Protocol names | May not include Zigbee/Z-Wave/433 MHz/Infrared in the name | ✅ |
